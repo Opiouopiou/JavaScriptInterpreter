@@ -1,0 +1,54 @@
+C:\Users\lm0122\source\repos\JavaScriptInterpreter\JavaScriptInterpreter\bin\Debug\JavaScriptInterpreter.exe.config
+C:\Users\lm0122\source\repos\JavaScriptInterpreter\JavaScriptInterpreter\bin\Debug\JavaScriptInterpreter.exe
+C:\Users\lm0122\source\repos\JavaScriptInterpreter\JavaScriptInterpreter\bin\Debug\JavaScriptInterpreter.pdb
+C:\Users\lm0122\source\repos\JavaScriptInterpreter\JavaScriptInterpreter\obj\Debug\JavaScriptInterpreter.csprojAssemblyReference.cache
+C:\Users\lm0122\source\repos\JavaScriptInterpreter\JavaScriptInterpreter\obj\Debug\MainWindow.g.cs
+C:\Users\lm0122\source\repos\JavaScriptInterpreter\JavaScriptInterpreter\obj\Debug\App.g.cs
+C:\Users\lm0122\source\repos\JavaScriptInterpreter\JavaScriptInterpreter\obj\Debug\JavaScriptInterpreter_MarkupCompile.cache
+C:\Users\lm0122\source\repos\JavaScriptInterpreter\JavaScriptInterpreter\obj\Debug\JavaScriptInterpreter_MarkupCompile.lref
+C:\Users\lm0122\source\repos\JavaScriptInterpreter\JavaScriptInterpreter\obj\Debug\MainWindow.baml
+C:\Users\lm0122\source\repos\JavaScriptInterpreter\JavaScriptInterpreter\obj\Debug\JavaScriptInterpreter.g.resources
+C:\Users\lm0122\source\repos\JavaScriptInterpreter\JavaScriptInterpreter\obj\Debug\JavaScriptInterpreter.Properties.Resources.resources
+C:\Users\lm0122\source\repos\JavaScriptInterpreter\JavaScriptInterpreter\obj\Debug\JavaScriptInterpreter.csproj.GenerateResource.cache
+C:\Users\lm0122\source\repos\JavaScriptInterpreter\JavaScriptInterpreter\obj\Debug\JavaScriptInterpreter.csproj.CoreCompileInputs.cache
+C:\Users\lm0122\source\repos\JavaScriptInterpreter\JavaScriptInterpreter\obj\Debug\JavaScriptInterpreter.exe
+C:\Users\lm0122\source\repos\JavaScriptInterpreter\JavaScriptInterpreter\obj\Debug\JavaScriptInterpreter.pdb
+C:\Users\lm0122\source\repos\JavaScriptInterpreter\JavaScriptInterpreter\bin\Debug\System.ValueTuple.dll
+C:\Users\lm0122\source\repos\JavaScriptInterpreter\JavaScriptInterpreter\bin\Debug\System.ValueTuple.xml
+C:\Users\lm0122\source\repos\JavaScriptInterpreter\JavaScriptInterpreter\obj\Debug\JavaScriptInterpreter.csproj.CopyComplete
+K:\Torrent downloads\_temp\gams\Own Stuff\JavaScriptInterpreter\JavaScriptInterpreter\bin\Debug\JavaScriptInterpreter.exe.config
+K:\Torrent downloads\_temp\gams\Own Stuff\JavaScriptInterpreter\JavaScriptInterpreter\bin\Debug\JavaScriptInterpreter.exe
+K:\Torrent downloads\_temp\gams\Own Stuff\JavaScriptInterpreter\JavaScriptInterpreter\bin\Debug\JavaScriptInterpreter.pdb
+K:\Torrent downloads\_temp\gams\Own Stuff\JavaScriptInterpreter\JavaScriptInterpreter\bin\Debug\System.ValueTuple.dll
+K:\Torrent downloads\_temp\gams\Own Stuff\JavaScriptInterpreter\JavaScriptInterpreter\bin\Debug\System.ValueTuple.xml
+K:\Torrent downloads\_temp\gams\Own Stuff\JavaScriptInterpreter\JavaScriptInterpreter\obj\Debug\JavaScriptInterpreter.csproj.AssemblyReference.cache
+K:\Torrent downloads\_temp\gams\Own Stuff\JavaScriptInterpreter\JavaScriptInterpreter\obj\Debug\MainWindow.g.cs
+K:\Torrent downloads\_temp\gams\Own Stuff\JavaScriptInterpreter\JavaScriptInterpreter\obj\Debug\App.g.cs
+K:\Torrent downloads\_temp\gams\Own Stuff\JavaScriptInterpreter\JavaScriptInterpreter\obj\Debug\JavaScriptInterpreter_MarkupCompile.cache
+K:\Torrent downloads\_temp\gams\Own Stuff\JavaScriptInterpreter\JavaScriptInterpreter\obj\Debug\JavaScriptInterpreter_MarkupCompile.lref
+K:\Torrent downloads\_temp\gams\Own Stuff\JavaScriptInterpreter\JavaScriptInterpreter\obj\Debug\MainWindow.baml
+K:\Torrent downloads\_temp\gams\Own Stuff\JavaScriptInterpreter\JavaScriptInterpreter\obj\Debug\JavaScriptInterpreter.g.resources
+K:\Torrent downloads\_temp\gams\Own Stuff\JavaScriptInterpreter\JavaScriptInterpreter\obj\Debug\JavaScriptInterpreter.Properties.Resources.resources
+K:\Torrent downloads\_temp\gams\Own Stuff\JavaScriptInterpreter\JavaScriptInterpreter\obj\Debug\JavaScriptInterpreter.csproj.GenerateResource.cache
+K:\Torrent downloads\_temp\gams\Own Stuff\JavaScriptInterpreter\JavaScriptInterpreter\obj\Debug\JavaScriptInterpreter.csproj.CoreCompileInputs.cache
+K:\Torrent downloads\_temp\gams\Own Stuff\JavaScriptInterpreter\JavaScriptInterpreter\obj\Debug\JavaScriptInterpreter.csproj.CopyComplete
+K:\Torrent downloads\_temp\gams\Own Stuff\JavaScriptInterpreter\JavaScriptInterpreter\obj\Debug\JavaScriptInterpreter.exe
+K:\Torrent downloads\_temp\gams\Own Stuff\JavaScriptInterpreter\JavaScriptInterpreter\obj\Debug\JavaScriptInterpreter.pdb
+K:\Torrent downloads\_temp\gams\Own Stuff\JavaScriptInterpreter\backup\JavaScriptInterpreter\bin\Debug\JavaScriptInterpreter.exe.config
+K:\Torrent downloads\_temp\gams\Own Stuff\JavaScriptInterpreter\backup\JavaScriptInterpreter\bin\Debug\JavaScriptInterpreter.exe
+K:\Torrent downloads\_temp\gams\Own Stuff\JavaScriptInterpreter\backup\JavaScriptInterpreter\bin\Debug\JavaScriptInterpreter.pdb
+K:\Torrent downloads\_temp\gams\Own Stuff\JavaScriptInterpreter\backup\JavaScriptInterpreter\bin\Debug\System.ValueTuple.dll
+K:\Torrent downloads\_temp\gams\Own Stuff\JavaScriptInterpreter\backup\JavaScriptInterpreter\bin\Debug\System.ValueTuple.xml
+K:\Torrent downloads\_temp\gams\Own Stuff\JavaScriptInterpreter\backup\JavaScriptInterpreter\obj\Debug\JavaScriptInterpreter.csproj.AssemblyReference.cache
+K:\Torrent downloads\_temp\gams\Own Stuff\JavaScriptInterpreter\backup\JavaScriptInterpreter\obj\Debug\MainWindow.g.cs
+K:\Torrent downloads\_temp\gams\Own Stuff\JavaScriptInterpreter\backup\JavaScriptInterpreter\obj\Debug\App.g.cs
+K:\Torrent downloads\_temp\gams\Own Stuff\JavaScriptInterpreter\backup\JavaScriptInterpreter\obj\Debug\JavaScriptInterpreter_MarkupCompile.cache
+K:\Torrent downloads\_temp\gams\Own Stuff\JavaScriptInterpreter\backup\JavaScriptInterpreter\obj\Debug\JavaScriptInterpreter_MarkupCompile.lref
+K:\Torrent downloads\_temp\gams\Own Stuff\JavaScriptInterpreter\backup\JavaScriptInterpreter\obj\Debug\MainWindow.baml
+K:\Torrent downloads\_temp\gams\Own Stuff\JavaScriptInterpreter\backup\JavaScriptInterpreter\obj\Debug\JavaScriptInterpreter.g.resources
+K:\Torrent downloads\_temp\gams\Own Stuff\JavaScriptInterpreter\backup\JavaScriptInterpreter\obj\Debug\JavaScriptInterpreter.Properties.Resources.resources
+K:\Torrent downloads\_temp\gams\Own Stuff\JavaScriptInterpreter\backup\JavaScriptInterpreter\obj\Debug\JavaScriptInterpreter.csproj.GenerateResource.cache
+K:\Torrent downloads\_temp\gams\Own Stuff\JavaScriptInterpreter\backup\JavaScriptInterpreter\obj\Debug\JavaScriptInterpreter.csproj.CoreCompileInputs.cache
+K:\Torrent downloads\_temp\gams\Own Stuff\JavaScriptInterpreter\backup\JavaScriptInterpreter\obj\Debug\JavaScriptInterpreter.csproj.CopyComplete
+K:\Torrent downloads\_temp\gams\Own Stuff\JavaScriptInterpreter\backup\JavaScriptInterpreter\obj\Debug\JavaScriptInterpreter.exe
+K:\Torrent downloads\_temp\gams\Own Stuff\JavaScriptInterpreter\backup\JavaScriptInterpreter\obj\Debug\JavaScriptInterpreter.pdb
