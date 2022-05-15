@@ -15,7 +15,7 @@ namespace JavaScriptInterpreter
 #if DEBUG
       if (Level <= debugLevel)
       {
-        Console.WriteLine($"{className} : {methodName}" );
+        Console.WriteLine($" -:- {className} : {methodName} -:- " );
       }
 #endif
     }
@@ -25,7 +25,7 @@ namespace JavaScriptInterpreter
 #if DEBUG
       if (level <= debugLevel)
       {
-        Console.WriteLine(message);
+        Console.WriteLine($"     > {message}");
       }
 #endif
     }

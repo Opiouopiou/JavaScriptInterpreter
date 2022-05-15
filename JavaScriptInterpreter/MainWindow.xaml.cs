@@ -22,29 +22,44 @@ namespace JavaScriptInterpreter
   /// </summary>
   public partial class MainWindow : Window
   {
-    string _rootFolder = "K:/Torrent downloads/_temp/gams/2021/FortOfChains/dist/imagepacks/default/gender_female/subrace_demon";
-
-    //string _rootFolder = "K:/Torrent downloads/_temp/gams/2021/FortOfChains/dist/imagepacks/default/gender_female/subrace_humansea/bg_whore";
-
-    string metaFile = "imagemeta.js";
     ImageGridManager ImGridManager;
-
     MetaFileManager metaFileManager;
 
     public MainWindow()
     {
       InitializeComponent();
       Initialize();
-      Console.WriteLine("test writeline");
+      
     }
 
     private void Initialize()
     {
       LiamDebugger.Name(GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name, 2);
 
-      ImGridManager = new ImageGridManager();
+      LiamDebugger.Message(" -------- init ---------- ", 2);
 
-      metaFileManager = new MetaFileManager();
+
+      metaFileManager = MetaFileManager.Instance;
+      metaFileManager.DataList = metaFileManager.LoadJsMetaFile(metaFileManager.RootFolder);
+      ImGridManager = ImageGridManager.Instance;
+      
+      string[] imagesInFolder = Directory.GetFiles(metaFileManager.RootFolder, "*.jpg");
+      int numImagesInFolder = imagesInFolder.Length;
+
+
+      //int sut = imagesInFolder.Length;
+
+      ImGridManager.LoadImageIntoAllGridCells(metaFileManager.RootFolder, scrollViewer);
+
+      if (metaFileManager.DataList.Count > 0)
+      {
+        Ttitle.Text = metaFileManager.DataList[1].Title;
+        Tartist.Text = metaFileManager.DataList[1].Artist;
+        Turl.Text = metaFileManager.DataList[1].Url;
+        Tlicense.Text = metaFileManager.DataList[1].License;
+        Textra.Text = metaFileManager.DataList[1].Extra;
+      }
+      //Idisplay.Source
     }
 
     //private void button1_Click(object sender, EventArgs e)
@@ -64,8 +79,7 @@ namespace JavaScriptInterpreter
     //    {
     //    }
     //  }
-    //  Console.WriteLine(size); // <-- Shows file size in debugging mode.
-    //  Console.WriteLine(result); // <-- For debugging use.
+
     //}
 
     //todo
@@ -85,18 +99,25 @@ namespace JavaScriptInterpreter
     {
       LiamDebugger.Name(GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name, 2);
 
-      LiamDebugger.Message(" -------- click ---------- ",2);
+      LiamDebugger.Message(" -------- click ---------- ", 2);
 
-
-      string[] imagesInFolder = Directory.GetFiles(_rootFolder, "*.jpg");
+      string[] imagesInFolder = Directory.GetFiles(metaFileManager.RootFolder, "*.jpg");
       int numImagesInFolder = imagesInFolder.Length;
 
       //int sut = imagesInFolder.Length;
 
-      ImGridManager.LoadImageIntoAllGridCells(_rootFolder, scrollViewer);
-      List<DataModel> dataList = metaFileManager.LoadJsMetaFile(_rootFolder);
+      ImGridManager.LoadImageIntoAllGridCells(metaFileManager.RootFolder, scrollViewer);
+      List<DataModel> dataList = metaFileManager.LoadJsMetaFile(metaFileManager.RootFolder);
 
-      ContentTesterText.Text = dataList[1].Title;
     }
+
+    //public void LoadNewDisplayImage(Image displayImage)
+    //{
+    //  LiamDebugger.Name(GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name, 2);
+
+    //  Idisplay = displayImage;
+    //}
+
+
   }
 }

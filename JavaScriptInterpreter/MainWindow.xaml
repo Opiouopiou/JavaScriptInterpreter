@@ -6,51 +6,78 @@
         xmlns:local="clr-namespace:JavaScriptInterpreter"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-  <Grid Name="mainGrid">
-    <Grid.RowDefinitions>
-      <RowDefinition Height="*"/>
-      <RowDefinition Height="3*"/>
-      <RowDefinition Height="3*"/>
-      <RowDefinition Height="3*"/>
-    </Grid.RowDefinitions>
-    <Grid.ColumnDefinitions>
-      <ColumnDefinition/>
-      <ColumnDefinition/>
-    </Grid.ColumnDefinitions>
-    <Button Grid.Row="0" Grid.Column="1" Content="Press me for action" Click="ClickTestAction" >
-        </Button>
-        <TextBlock Grid.Column="1" Grid.Row="1" Text="test" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Name="ContentTesterText"/>
-    <ScrollViewer Grid.Row="1" Grid.Column="0" Grid.RowSpan="3" Name="scrollViewer">
-      <!--<Grid x:Name="ImageGrid">
+    <Grid Name="mainGrid">
         <Grid.RowDefinitions>
-          <RowDefinition Height="100"/>
-          <RowDefinition Height="100"/>
-          <RowDefinition Height="100"/>
-          <RowDefinition Height="100"/>
-          <RowDefinition Height="100"/>
-          <RowDefinition Height="100"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-          <ColumnDefinition/>
-          <ColumnDefinition/>
-          <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Image Source="C:\Users\lm0122\source\repos\documentation 82b\TechnicalMemo\pictures\Painterlines\SphereUpdater.PNG" Grid.Row="0" Grid.Column="0" Name="ImageTest1"/>
-        <Button Content="Button 2" Grid.Row="0" Grid.Column="1" Click="ButtonClick2"/>
-        <Button Content="Button 3" Grid.Row="0" Grid.Column="2" Click="ButtonClick3"/>
-        --><!--<Button Content="Button 4" Grid.Row="1" Grid.Column="0"/>
-        <Button Content="Button 5" Grid.Row="1" Grid.Column="1"/>
-        <Button Content="Button 6" Grid.Row="1" Grid.Column="2"/>
-        <Button Content="Button 7" Grid.Row="2" Grid.Column="0"/>
-        <Button Content="Button 8" Grid.Row="2" Grid.Column="1"/>
-        <Button Content="Button 9" Grid.Row="2" Grid.Column="2"/>
-        <Button Content="Button 10" Grid.Row="3" Grid.Column="0"/>
-        <Button Content="Button 11" Grid.Row="3" Grid.Column="1"/>
-        <Button Content="Button 12" Grid.Row="3" Grid.Column="2"/>
-        <Button Content="Button 13" Grid.Row="4" Grid.Column="0"/>
-        <Button Content="Button 14" Grid.Row="4" Grid.Column="1"/>
-        <Button Content="Button 15" Grid.Row="4" Grid.Column="2"/>--><!--
-      </Grid>-->
-    </ScrollViewer>
-  </Grid>
+        <ScrollViewer Grid.Row="1" Grid.Column="0" Grid.RowSpan="20" Name="scrollViewer"/>
+        <Image Grid.Row="0" Grid.Column="1" Grid.RowSpan="6" x:Name="Idisplay" Stretch="Uniform"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Content="Change folder" Name="BchangeFolder"/>
+            <Button Grid.Column="1" Content="Add" Name="Badd"/>
+            <Button Grid.Column="2" Content="Remove" Name="Bremove"/>
+        </Grid>
+        <Grid Grid.Column="1" Grid.Row="7">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2.5*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Grid.Row="0" Text="Title:" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="20"  Margin="20,0,0,0" Grid.RowSpan="3"/>
+            <TextBox Grid.Column="1" Grid.Row="0" Name="Ttitle"/>
+        </Grid>
+        <Grid Grid.Column="1" Grid.Row="8">
+            <Grid.ColumnDefinitions >
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2.5*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Grid.Row="0" Text="Artist:" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="20" Margin="20,0,0,0"/>
+            <TextBox Grid.Column="1" Grid.Row="0" Name="Tartist"/>
+        </Grid>
+        <Grid Grid.Column="1" Grid.Row="9">
+            <Grid.ColumnDefinitions >
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2.5*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Grid.Row="0" Text="Url:" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="20" Margin="20,0,0,0"/>
+            <TextBox Grid.Column="1" Grid.Row="0" Name="Turl"/>
+        </Grid>
+        <Grid Grid.Column="1" Grid.Row="10">
+            <Grid.ColumnDefinitions >
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2.5*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Grid.Row="0" Text="Licesnse:" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="20" Margin="20,0,0,0"/>
+            <TextBox Grid.Column="1" Grid.Row="0" Name="Tlicense"/>
+        </Grid>
+        <Grid Grid.Column="1" Grid.Row="11">
+            <Grid.ColumnDefinitions >
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2.5*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Grid.Row="0" Text="Extra:" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="20" Margin="20,0,0,0"/>
+            <TextBox Grid.Column="1" Grid.Row="0" Name="Textra"/>
+        </Grid>
+        <Button Grid.Row="12" Grid.Column="1" Content="Press me for action" Click="ClickTestAction"/>
+    </Grid>
 </Window>

@@ -9,12 +9,20 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Drawing;
+using System.Text.RegularExpressions;
 
 namespace JavaScriptInterpreter
 {
   public class ImageGridManager
   {
-    int _gridCols = 4;
+    int _gridCols = 3;
+    MetaFileManager metaFileManager;
+
+    private static Lazy<ImageGridManager> lazy = new Lazy<ImageGridManager>(() => new ImageGridManager());
+
+    public static ImageGridManager Instance { get { return lazy.Value; } }
+
+    private ImageGridManager() { metaFileManager = MetaFileManager.Instance; }
 
 
     int GetGridNumber(int col, int row, Grid grid)
@@ -64,59 +72,90 @@ namespace JavaScriptInterpreter
     }
 
 
-    public void LoadImageIntoAllGridCells(string rootDir, ScrollViewer scrollViewer)
+    public void LoadImageIntoAllGridCells(string rootFolder, ScrollViewer scrollViewer)
     {
       LiamDebugger.Name(GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name, 2);
 
-      string[] imagesInFolder = Directory.GetFiles(rootDir, "*.jpg");
-      int rows = ((imagesInFolder.Length - 1) / _gridCols + 1);
+      metaFileManager.ImageButtonMapping.Clear();
+
+
+      // setup sorted list of images in root folder
+      Regex regex = new Regex(@"^\d+\.jpg$");
+      string[] tempImagesInFolder = Directory.GetFiles(rootFolder, "*.jpg");
+      List<string> imagesInFolder = new List<string>();
+
+      foreach (string imgPathName in tempImagesInFolder)
+      {
+        string imgFileName = Path.GetFileName(imgPathName);
+        LiamDebugger.Message($"img name: {imgFileName}", 2);
+        if (regex.IsMatch(imgFileName))
+        {
+          Console.WriteLine($"regex: {regex} matches string {imgFileName}");
+          imagesInFolder.Add(imgPathName);
+        }
+      }
+      imagesInFolder.Sort();
+
+      
+      // create grid from number of images in folder given a column size
+      int rows = ((imagesInFolder.Count - 1) / _gridCols + 1);
       int cols = _gridCols;
       int numCells = rows * cols;
 
       Grid generatedImageGrid = CreateGridFromNumOfCells(numCells);
 
-      for (int i = 1; i < imagesInFolder.Length + 1; i++)
+
+      // fill each grid cell with buttons and images
+      for (int i = 1; i < imagesInFolder.Count + 1; i++)
       {
+        // get row and column number from i
         int coli = GetColNumFromGrid(i, generatedImageGrid);
         int rowi = GetRowNumFromGrid(i, generatedImageGrid);
 
+        // create button
         Button butt = new Button();
+        butt.Name = $"B{i}";
+        butt.Click += ClickAction;
 
-        //var bitmapFrame = BitmapFrame.Create(new Uri(imagesInFolder[i - 1]), BitmapCreateOptions.DelayCreation, BitmapCacheOption.None);
-        //var width = bitmapFrame.PixelWidth;
-        //var height = bitmapFrame.PixelHeight;
-
-
+        // create image
         Image im = new Image();
         im.Source = new BitmapImage(new Uri(imagesInFolder[i - 1]));
 
-        ImageBrush imb = new ImageBrush();
-        //imb.Stretch = Stretch.Uniform;
-        //imb.ImageSource = im.Source;
-        //butt.color = imb;
+        // mapping and image in button
         butt.Content = im;
+        metaFileManager.ImageButtonMapping.Add(i,metaFileManager.DataList[i-1]);
 
+
+        // add to grid cell
         generatedImageGrid.Children.Add(butt);
         Grid.SetRow(butt, rowi);
         Grid.SetColumn(butt, coli);
-        //LiamDebugger.Message($"height: {height}",1);
-        //LiamDebugger.Message($"width: {width}", 1);
 
-        //butt.Height = 100;
-        //butt.Width = width;
+        //ImageBrush imb = new ImageBrush();
+        //imb.Stretch = Stretch.Uniform;
+        //imb.ImageSource = im.Source;
+        //butt.color = imb;
+
+
 
         //generatedImageGrid.VerticalAlignment = VerticalAlignment.Top;
       }
 
-      //int g = ((4 - 1) / 3) + 1;
-      //ContentTesterText.Text = ($"g = {g.ToString()}, Rows = {rows}, Cols = {cols}, number = {numCells}");
+
 
       scrollViewer.Content = generatedImageGrid;
     }
 
-    public void CheckMouseOver(object sender, EventArgs e)
+
+
+    public void ClickAction(object sender, EventArgs e)
     {
-      
+      LiamDebugger.Name(GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name, 2);
+
+      Button B = sender as Button;
+      string buttonNum = B.Name.Remove(0, 1); // remove letter B at front of name
+      LiamDebugger.Message($"load number: {buttonNum}", 2);
+      MetaFileManager.Instance.LoadDataFromButtonNum(Int32.Parse(buttonNum), B);
     }
 
   }

@@ -4,23 +4,36 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 
 namespace JavaScriptInterpreter
 {
   public class MetaFileManager
   {
-    string _rootFolder = "K:/Torrent downloads/_temp/gams/2021/FortOfChains/dist/imagepacks/default/gender_female/subrace_demon";
+    string _rootFolder = "K:/Torrent downloads/_temp/gams/2021/FortOfChains/dist/imagepacks/default/gender_female/subrace_demon/";
     List<DataModel> _dataList;
-    string metaFileName = "/imagemeta.js";
+    string metaFileName = "imagemeta.js";
+    MainWindow Form = Application.Current.Windows[0] as MainWindow;
+
+    public Dictionary<int, DataModel> ImageButtonMapping = new Dictionary<int, DataModel>();
 
     string beginMeta = "";
     string stringOfConcern = "";
     string endMeta = "";
+    string _displayImageSource = "";
+    public string RootFolder { get => _rootFolder; set { _rootFolder = value; } }
+    public List<DataModel> DataList { get => _dataList; set { _dataList = value; } }
+    public string DisplayImageSource { get => _displayImageSource; set { _displayImageSource = value; } }
+    private static Lazy<MetaFileManager> lazy = new Lazy<MetaFileManager>(() => new MetaFileManager());
+    public static MetaFileManager Instance { get { return lazy.Value; } }
+    private MetaFileManager() { }
 
-    string RootFolder { get => _rootFolder; set { _rootFolder = value; } }
-    List<DataModel> DataList { get => _dataList; set { _dataList = value; } }
-
-
+    public DataModel GetDataModelFromNum(int dataNum)
+    {
+      return DataList.ElementAt(dataNum);
+    }
 
     public List<DataModel> LoadJsMetaFile(string rootFolder)
     {
@@ -36,7 +49,6 @@ namespace JavaScriptInterpreter
       while (!ImageMetaLines[startOfArray].Contains("UNITIMAGE_CREDITS"))
       {
         startOfArray++;
-
         if (startOfArray > ImageMetaLines.Length)
         {
           return null;
@@ -47,16 +59,13 @@ namespace JavaScriptInterpreter
 
       for (int i = startOfArray; i < ImageMetaLines.Length; i++)
       {
-
         if(i + 5 >= ImageMetaLines.Length)
         {
           LiamDebugger.Message($"Exiting Data load loop", 2);
-
           break;
         }
 
-        LiamDebugger.Message($" ---------- Adding new Datamodel item ---------", 2);
-
+        LiamDebugger.Message($" --------- Adding new Datamodel item ---------", 4);
 
         string dataName     = "";
         string dataTitle    = "";
@@ -65,16 +74,12 @@ namespace JavaScriptInterpreter
         string dataLicense  = "";
         string dataExtra    = "";
 
-        
-
         if(ImageMetaLines[i].Contains("{"))
         {
           dataName = ImageMetaLines[i].Trim();
-
           dataName = dataName.Remove(dataName.Length - 3 ); // trim ": {" from string
 
-          LiamDebugger.Message($"name: {dataName}", 2);
-
+          LiamDebugger.Message($"name: {dataName}", 5);
         }
         if (ImageMetaLines[i+1].Contains("title"))
         {
@@ -83,7 +88,7 @@ namespace JavaScriptInterpreter
          
           dataTitle = ImageMetaLines[i + 1].Substring(from, to - from);
 
-          LiamDebugger.Message($"title: {dataTitle}", 2);
+          LiamDebugger.Message($"title: {dataTitle}", 5);
         }
         if (ImageMetaLines[i + 2].Contains("artist"))
         {
@@ -92,7 +97,7 @@ namespace JavaScriptInterpreter
 
           dataArtist = ImageMetaLines[i + 2].Substring(from, to - from);
 
-          LiamDebugger.Message($"artist: {dataArtist}", 2);
+          LiamDebugger.Message($"artist: {dataArtist}", 5);
         }
         if (ImageMetaLines[i + 3].Contains("url"))
         {
@@ -101,7 +106,7 @@ namespace JavaScriptInterpreter
 
           dataURL = ImageMetaLines[i + 3].Substring(from, to - from);
 
-          LiamDebugger.Message($"url: {dataURL}", 2);
+          LiamDebugger.Message($"url: {dataURL}", 4);
         }
         if (ImageMetaLines[i + 4].Contains("license"))
         {
@@ -110,7 +115,7 @@ namespace JavaScriptInterpreter
 
           dataLicense = ImageMetaLines[i + 4].Substring(from, to - from);
 
-          LiamDebugger.Message($"license: {dataLicense}", 2);
+          LiamDebugger.Message($"license: {dataLicense}", 5);
         }
         if (!ImageMetaLines[i + 5].Contains("extra"))
         {
@@ -126,17 +131,14 @@ namespace JavaScriptInterpreter
 
           dataArtist = ImageMetaLines[i + 5].Substring(from, to - from);
 
-          LiamDebugger.Message($"extra: {dataExtra}", 2);
+          LiamDebugger.Message($"extra: {dataExtra}", 5);
 
           DataModel dataModelExtra = new DataModel(dataName, dataTitle, dataArtist, dataURL, dataLicense, dataExtra);
           DataList.Add(dataModelExtra);
           i = i + 6;
         }
-
       }
-
-
-
+      //DataList.Sort();
       return DataList;
     }
 
@@ -154,6 +156,27 @@ namespace JavaScriptInterpreter
       stringOfConcern = "";
       endMeta = "";
     }
+    public void LoadDataFromButtonNum(int buttonNum, Button butt)
+    {
+      LiamDebugger.Name(GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name, 2);
 
+      LiamDebugger.Message($"datalist: {DataList}", 2);
+      //DataModel d = DataList[dataNum];
+      
+      DataModel d;
+      ImageButtonMapping.TryGetValue(buttonNum, out d);
+      Image im = new Image();
+
+      string[] uri = Directory.GetFiles(_rootFolder, $"{d.FileName}.jpg");
+      LiamDebugger.Message($"dataNum: {d.FileName}, searching for {_rootFolder}{d.FileName}.jpg",2);
+      LiamDebugger.Message($"num files gotten: {uri.Length}", 2);
+
+      if(uri.Length == 1)
+      {
+        im.Source = new BitmapImage(new Uri(uri[0]));
+        Form.Idisplay.Source = new BitmapImage(new Uri(uri[0]));
+      }
+      LiamDebugger.Message($"image source = {Form.Idisplay.Source}", 2);
+    }
   }
 }
