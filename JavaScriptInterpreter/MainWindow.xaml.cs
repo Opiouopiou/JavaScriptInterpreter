@@ -29,7 +29,7 @@ namespace JavaScriptInterpreter
     {
       InitializeComponent();
       Initialize();
-      
+
     }
 
     private void Initialize()
@@ -40,26 +40,17 @@ namespace JavaScriptInterpreter
 
 
       metaFileManager = MetaFileManager.Instance;
-      metaFileManager.DataList = metaFileManager.LoadJsMetaFile(metaFileManager.RootFolder);
+      metaFileManager.RootFolder = "K:/Torrent downloads/_temp/gams/2021/FortOfChains/dist/imagepacks/default/gender_female/subrace_demon/";
+      metaFileManager.DataList = metaFileManager.LoadJsMetaFile();
+
       ImGridManager = ImageGridManager.Instance;
-      
-      string[] imagesInFolder = Directory.GetFiles(metaFileManager.RootFolder, "*.jpg");
-      int numImagesInFolder = imagesInFolder.Length;
 
 
-      //int sut = imagesInFolder.Length;
 
-      ImGridManager.LoadImageIntoAllGridCells(metaFileManager.RootFolder, scrollViewer);
 
-      if (metaFileManager.DataList.Count > 0)
-      {
-        Ttitle.Text = metaFileManager.DataList[1].Title;
-        Tartist.Text = metaFileManager.DataList[1].Artist;
-        Turl.Text = metaFileManager.DataList[1].Url;
-        Tlicense.Text = metaFileManager.DataList[1].License;
-        Textra.Text = metaFileManager.DataList[1].Extra;
-      }
-      //Idisplay.Source
+      ImGridManager.LoadFolderIntoGrid(scrollViewer);
+
+      //LoadFirstImageInFolder();
     }
 
     //private void button1_Click(object sender, EventArgs e)
@@ -106,18 +97,40 @@ namespace JavaScriptInterpreter
 
       //int sut = imagesInFolder.Length;
 
-      ImGridManager.LoadImageIntoAllGridCells(metaFileManager.RootFolder, scrollViewer);
-      List<DataModel> dataList = metaFileManager.LoadJsMetaFile(metaFileManager.RootFolder);
+      ImGridManager.LoadFolderIntoGrid(scrollViewer);
+      List<DataModel> dataList = metaFileManager.LoadJsMetaFile();
 
     }
 
-    //public void LoadNewDisplayImage(Image displayImage)
-    //{
-    //  LiamDebugger.Name(GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name, 2);
+    private void ChangeFolder(object sender, RoutedEventArgs e)
+    {
+      Microsoft.Win32.OpenFileDialog fileBrowserDialog = new Microsoft.Win32.OpenFileDialog();
 
-    //  Idisplay = displayImage;
-    //}
+      if (fileBrowserDialog.ShowDialog() == true)
+      {
+        string path = $"{fileBrowserDialog.FileName}";
+        string[] pathSplit = path.Split('\\');
+        int len = pathSplit.Length - 1;
+        string pathNew = path.Remove(path.Length - pathSplit[len].Length);
+        metaFileManager.RootFolder = pathNew;
+        metaFileManager.DataList = metaFileManager.LoadJsMetaFile();
+        ImGridManager.LoadFolderIntoGrid(scrollViewer);
+        //LoadFirstImageInFolder();
 
+      }
+    }
 
+    void LoadFirstImageInFolder()
+    {
+      if (metaFileManager.DataList.Count > 0)
+      {
+        Ttitle.Text = metaFileManager.DataList[0].Title;
+        Tartist.Text = metaFileManager.DataList[0].Artist;
+        Turl.Text = metaFileManager.DataList[0].Url;
+        Tlicense.Text = metaFileManager.DataList[0].License;
+        Textra.Text = metaFileManager.DataList[0].Extra;
+        
+      }
+    }
   }
 }

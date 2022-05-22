@@ -17,6 +17,8 @@ namespace JavaScriptInterpreter
   {
     int _gridCols = 3;
     MetaFileManager metaFileManager;
+    List<string> imagesInFolder = new List<string>();
+    Grid gridFromNumCells;
 
     private static Lazy<ImageGridManager> lazy = new Lazy<ImageGridManager>(() => new ImageGridManager());
 
@@ -72,8 +74,9 @@ namespace JavaScriptInterpreter
     }
 
 
-    public void LoadImageIntoAllGridCells(string rootFolder, ScrollViewer scrollViewer)
+    public void LoadFolderIntoGrid(ScrollViewer scrollViewer)
     {
+      
       LiamDebugger.Name(GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name, 2);
 
       metaFileManager.ImageButtonMapping.Clear();
@@ -81,8 +84,9 @@ namespace JavaScriptInterpreter
 
       // setup sorted list of images in root folder
       Regex regex = new Regex(@"^\d+\.jpg$");
-      string[] tempImagesInFolder = Directory.GetFiles(rootFolder, "*.jpg");
-      List<string> imagesInFolder = new List<string>();
+      string[] tempImagesInFolder = Directory.GetFiles(metaFileManager.RootFolder, "*.jpg");
+      LiamDebugger.Message($"len tempimagesinfolder: {tempImagesInFolder.Length}",2);
+      imagesInFolder.Clear();
 
       foreach (string imgPathName in tempImagesInFolder)
       {
@@ -95,22 +99,22 @@ namespace JavaScriptInterpreter
         }
       }
       imagesInFolder.Sort();
+      LiamDebugger.Message($"count imagesInFolder: {imagesInFolder.Count}", 2);
 
-      
+
       // create grid from number of images in folder given a column size
-      int rows = ((imagesInFolder.Count - 1) / _gridCols + 1);
+      int rows = (imagesInFolder.Count - 1) / _gridCols + 1;
       int cols = _gridCols;
       int numCells = rows * cols;
-
-      Grid generatedImageGrid = CreateGridFromNumOfCells(numCells);
+      gridFromNumCells = CreateGridFromNumOfCells(numCells);
 
 
       // fill each grid cell with buttons and images
       for (int i = 1; i < imagesInFolder.Count + 1; i++)
       {
         // get row and column number from i
-        int coli = GetColNumFromGrid(i, generatedImageGrid);
-        int rowi = GetRowNumFromGrid(i, generatedImageGrid);
+        int coli = GetColNumFromGrid(i, gridFromNumCells);
+        int rowi = GetRowNumFromGrid(i, gridFromNumCells);
 
         // create button
         Button butt = new Button();
@@ -118,16 +122,27 @@ namespace JavaScriptInterpreter
         butt.Click += ClickAction;
 
         // create image
-        Image im = new Image();
-        im.Source = new BitmapImage(new Uri(imagesInFolder[i - 1]));
+        LiamDebugger.Message($"metafile: {metaFileManager.DataList[i - 1].FileName}, button: {i}", 2);
+
+        if (File.Exists($"{metaFileManager.RootFolder}{metaFileManager.DataList[i - 1].FileName}.jpg"))
+        {
+          Image im = new Image();
+          im.Source = new BitmapImage(new Uri($"{metaFileManager.RootFolder}{metaFileManager.DataList[i - 1].FileName}.jpg"));
+          butt.Content = im;
+        }
+        else
+        {
+          LiamDebugger.Message($"{metaFileManager.RootFolder}{metaFileManager.DataList[i - 1].FileName}.jpg", 2);
+          butt.Content = $"missing image file: \n {metaFileManager.DataList[i - 1].FileName}.jpg \n Check file type";
+        }
+
 
         // mapping and image in button
-        butt.Content = im;
-        metaFileManager.ImageButtonMapping.Add(i,metaFileManager.DataList[i-1]);
+        metaFileManager.ImageButtonMapping.Add(i, metaFileManager.DataList[i - 1]);
 
 
         // add to grid cell
-        generatedImageGrid.Children.Add(butt);
+        gridFromNumCells.Children.Add(butt);
         Grid.SetRow(butt, rowi);
         Grid.SetColumn(butt, coli);
 
@@ -143,7 +158,7 @@ namespace JavaScriptInterpreter
 
 
 
-      scrollViewer.Content = generatedImageGrid;
+      scrollViewer.Content = gridFromNumCells;
     }
 
 

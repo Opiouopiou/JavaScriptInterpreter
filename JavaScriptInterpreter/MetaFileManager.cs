@@ -35,14 +35,14 @@ namespace JavaScriptInterpreter
       return DataList.ElementAt(dataNum);
     }
 
-    public List<DataModel> LoadJsMetaFile(string rootFolder)
+    public List<DataModel> LoadJsMetaFile()
     {
       LiamDebugger.Name(GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name, 2);
 
       ClearData();
       List<DataModel> DataList = new List<DataModel>();
 
-      RootFolder = rootFolder;
+      
       string[] ImageMetaLines = File.ReadAllLines(_rootFolder + metaFileName);
 
       int startOfArray = 0;
@@ -59,7 +59,7 @@ namespace JavaScriptInterpreter
 
       for (int i = startOfArray; i < ImageMetaLines.Length; i++)
       {
-        if(i + 5 >= ImageMetaLines.Length)
+        if (i + 5 >= ImageMetaLines.Length)
         {
           LiamDebugger.Message($"Exiting Data load loop", 2);
           break;
@@ -67,25 +67,25 @@ namespace JavaScriptInterpreter
 
         LiamDebugger.Message($" --------- Adding new Datamodel item ---------", 4);
 
-        string dataName     = "";
-        string dataTitle    = "";
-        string dataArtist   = "";
-        string dataURL      = "";
-        string dataLicense  = "";
-        string dataExtra    = "";
+        string dataName = "";
+        string dataTitle = "";
+        string dataArtist = "";
+        string dataURL = "";
+        string dataLicense = "";
+        string dataExtra = "";
 
-        if(ImageMetaLines[i].Contains("{"))
+        if (ImageMetaLines[i].Contains("{"))
         {
           dataName = ImageMetaLines[i].Trim();
-          dataName = dataName.Remove(dataName.Length - 3 ); // trim ": {" from string
+          dataName = dataName.Remove(dataName.Length - 3); // trim ": {" from end of string
 
           LiamDebugger.Message($"name: {dataName}", 5);
         }
-        if (ImageMetaLines[i+1].Contains("title"))
+        if (ImageMetaLines[i + 1].Contains("title"))
         {
           int from = ImageMetaLines[i + 1].IndexOf(" \"") + " \"".Length;
           int to = ImageMetaLines[i + 1].LastIndexOf("\",");
-         
+
           dataTitle = ImageMetaLines[i + 1].Substring(from, to - from);
 
           LiamDebugger.Message($"title: {dataTitle}", 5);
@@ -151,7 +151,11 @@ namespace JavaScriptInterpreter
     void ClearData()
     {
       LiamDebugger.Name(GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name, 2);
-      RootFolder = "";
+      if (_dataList != null)
+      {
+        _dataList.Clear();
+      }
+      ImageButtonMapping.Clear();
       beginMeta = "";
       stringOfConcern = "";
       endMeta = "";
@@ -162,19 +166,24 @@ namespace JavaScriptInterpreter
 
       LiamDebugger.Message($"datalist: {DataList}", 2);
       //DataModel d = DataList[dataNum];
-      
+
       DataModel d;
       ImageButtonMapping.TryGetValue(buttonNum, out d);
       Image im = new Image();
 
       string[] uri = Directory.GetFiles(_rootFolder, $"{d.FileName}.jpg");
-      LiamDebugger.Message($"dataNum: {d.FileName}, searching for {_rootFolder}{d.FileName}.jpg",2);
+      LiamDebugger.Message($"dataNum: {d.FileName}, searching for {_rootFolder}{d.FileName}.jpg", 2);
       LiamDebugger.Message($"num files gotten: {uri.Length}", 2);
 
-      if(uri.Length == 1)
+      if (uri.Length == 1)
       {
         im.Source = new BitmapImage(new Uri(uri[0]));
         Form.Idisplay.Source = new BitmapImage(new Uri(uri[0]));
+        Form.Tartist.Text = d.Artist;
+        Form.Textra.Text = d.Extra;
+        Form.Tlicense.Text = d.License;
+        Form.Ttitle.Text = d.Title;
+        Form.Turl.Text = d.Url;
       }
       LiamDebugger.Message($"image source = {Form.Idisplay.Source}", 2);
     }
