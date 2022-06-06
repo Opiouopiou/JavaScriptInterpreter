@@ -86,25 +86,23 @@ namespace JavaScriptInterpreter
 
 
 
-    private void ClickTestAction(object sender, RoutedEventArgs e)
+    private void SaveMetaJS(object sender, RoutedEventArgs e)
     {
       LiamDebugger.Name(GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name, 2);
 
-      LiamDebugger.Message(" -------- click ---------- ", 2);
-
-      string[] imagesInFolder = Directory.GetFiles(metaFileManager.RootFolder, "*.jpg");
-      int numImagesInFolder = imagesInFolder.Length;
+      LiamDebugger.Message(" -------- save to imagemets.js ---------- ", 2);
 
       //int sut = imagesInFolder.Length;
 
-      ImGridManager.LoadFolderIntoGrid(scrollViewer);
-      List<DataModel> dataList = metaFileManager.LoadJsMetaFile();
+
+      metaFileManager.SaveJsMetaFile();
 
     }
 
     private void ChangeFolder(object sender, RoutedEventArgs e)
     {
       Microsoft.Win32.OpenFileDialog fileBrowserDialog = new Microsoft.Win32.OpenFileDialog();
+      LiamDebugger.Message(" -------- change folder ---------- ", 2);
 
       if (fileBrowserDialog.ShowDialog() == true)
       {

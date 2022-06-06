@@ -110,7 +110,7 @@ namespace JavaScriptInterpreter
 
 
       // fill each grid cell with buttons and images
-      for (int i = 1; i < imagesInFolder.Count + 1; i++)
+      for (int i = 1; i < metaFileManager.DataList.Count + 1; i++)
       {
         // get row and column number from i
         int coli = GetColNumFromGrid(i, gridFromNumCells);
@@ -119,10 +119,11 @@ namespace JavaScriptInterpreter
         // create button
         Button butt = new Button();
         butt.Name = $"B{i}";
-        butt.Click += ClickAction;
+        butt.Click += ImageButtonClick;
 
         // create image
-        LiamDebugger.Message($"metafile: {metaFileManager.DataList[i - 1].FileName}, button: {i}", 2);
+        LiamDebugger.Message($"metafile: {metaFileManager.DataList[i - 1].FileName}, button: {i-1}", 2);
+        LiamDebugger.Message($"button: {i-1}", 2);
 
         if (File.Exists($"{metaFileManager.RootFolder}{metaFileManager.DataList[i - 1].FileName}.jpg"))
         {
@@ -163,9 +164,10 @@ namespace JavaScriptInterpreter
 
 
 
-    public void ClickAction(object sender, EventArgs e)
+    public void ImageButtonClick(object sender, EventArgs e)
     {
       LiamDebugger.Name(GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name, 2);
+      LiamDebugger.Message(" -------- click image ---------- ", 2);
 
       Button B = sender as Button;
       string buttonNum = B.Name.Remove(0, 1); // remove letter B at front of name

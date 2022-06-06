@@ -20,8 +20,8 @@ namespace JavaScriptInterpreter
     public Dictionary<int, DataModel> ImageButtonMapping = new Dictionary<int, DataModel>();
 
     string beginMeta = "";
-    string stringOfConcern = "";
-    string endMeta = "";
+    StringBuilder stringOfConcern = new StringBuilder();
+    string endMeta = "  }\n \n}())\n";
     string _displayImageSource = "";
     public string RootFolder { get => _rootFolder; set { _rootFolder = value; } }
     public List<DataModel> DataList { get => _dataList; set { _dataList = value; } }
@@ -42,7 +42,11 @@ namespace JavaScriptInterpreter
       ClearData();
       List<DataModel> DataList = new List<DataModel>();
 
-      
+      if(_rootFolder + metaFileName == null)
+      {
+
+      }
+
       string[] ImageMetaLines = File.ReadAllLines(_rootFolder + metaFileName);
 
       int startOfArray = 0;
@@ -56,6 +60,13 @@ namespace JavaScriptInterpreter
         continue;
       }
       startOfArray++;
+
+      foreach (string line in ImageMetaLines)
+      {
+        beginMeta = $"{beginMeta}\n{line}";
+      }
+      LiamDebugger.Message($"start of metafile: {beginMeta}", 2);
+
 
       for (int i = startOfArray; i < ImageMetaLines.Length; i++)
       {
@@ -138,16 +149,43 @@ namespace JavaScriptInterpreter
           i = i + 6;
         }
       }
+      if (DataList.Count > 0)
+      {
+        LiamDebugger.Message($"end of metafile: {endMeta}", 2);
+
+      }
       //DataList.Sort();
       return DataList;
     }
 
-    void SaveJsMetaFile(List<DataModel> dataToSave)
+    public void SaveJsMetaFile()
     {
       LiamDebugger.Name(GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name, 2);
 
-    }
+      for (int i = 0; i < DataList.Count; i++)
+      {
+        stringOfConcern.Append($"    {i}: {{\n");
+        stringOfConcern.Append($"    title: \"{DataList[i].Title}\"\n");
+        stringOfConcern.Append($"    artist: \"{DataList[i].Artist}\"\n");
+        stringOfConcern.Append($"    url: \"{DataList[i].Url}\"\n");
+        stringOfConcern.Append($"    license: \"{DataList[i].License}\"\n");
+        stringOfConcern.Append($"  }},");
+      }
 
+      string fileText = "";
+      if (DataList.Count > 0)
+      {
+        fileText = beginMeta + stringOfConcern.ToString() + endMeta;
+      }
+      else
+      {
+        fileText = beginMeta;
+      }
+      LiamDebugger.Message($"about to delete: {RootFolder}imagemeta.js",2); 
+      File.Delete($"{RootFolder}imagemeta.js");
+      LiamDebugger.Message($"deleted: {RootFolder}imagemeta.js",2); 
+      File.WriteAllText($"{RootFolder}imagemeta.js", fileText);
+    }
     void ClearData()
     {
       LiamDebugger.Name(GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name, 2);
@@ -157,8 +195,8 @@ namespace JavaScriptInterpreter
       }
       ImageButtonMapping.Clear();
       beginMeta = "";
-      stringOfConcern = "";
-      endMeta = "";
+      stringOfConcern.Clear();
+      //endMeta = "";
     }
     public void LoadDataFromButtonNum(int buttonNum, Button butt)
     {
