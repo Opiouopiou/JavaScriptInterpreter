@@ -82,7 +82,9 @@ namespace JavaScriptInterpreter
     // - class data in xaml
     // - hover and select in xaml
 
-
+    // - add bulk images not yet in meta file
+    // - generate meta file?????
+    // - clear all meta file data?????
 
 
 
@@ -118,6 +120,7 @@ namespace JavaScriptInterpreter
       }
     }
 
+
     void LoadFirstImageInFolder()
     {
       if (metaFileManager.DataList.Count > 0)
@@ -127,7 +130,7 @@ namespace JavaScriptInterpreter
         Turl.Text = metaFileManager.DataList[0].Url;
         Tlicense.Text = metaFileManager.DataList[0].License;
         Textra.Text = metaFileManager.DataList[0].Extra;
-        
+
       }
     }
   }
