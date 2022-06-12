@@ -1,3 +1,8 @@
 ﻿.vs/JavaScriptInterpreter/v15/Server/sqlite3
 JavaScriptInterpreter/obj/Debug
 *.suo
+JavaScriptInterpreter/obj/Debug
+.vs
+JavaScriptInterpreter/obj
+InterpreterShould/obj/Release
+InterpreterShould/obj

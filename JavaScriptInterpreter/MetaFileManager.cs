@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
@@ -12,7 +11,8 @@ namespace JavaScriptInterpreter
 {
   public class MetaFileManager
   {
-    string _rootFolder = "K:/Torrent downloads/_temp/gams/2021/FortOfChains/dist/imagepacks/default/gender_female/subrace_demon/";
+    string _rootFolder = "K:/Torrent downloads/_temp/gams/Own Stuff/JavaScriptInterpreter/testImageFolder/";
+    int _lastClickedButton;
     List<DataModel> _dataList;
     string metaFileName = "imagemeta.js";
     MainWindow Form = Application.Current.Windows[0] as MainWindow;
@@ -21,7 +21,7 @@ namespace JavaScriptInterpreter
 
     string beginMeta = "";
     StringBuilder stringOfConcern = new StringBuilder();
-    string endMeta = "  }\n \n}())\n";
+    string endMeta = "  }\n \n}());\n";
     string _displayImageSource = "";
     public string RootFolder { get => _rootFolder; set { _rootFolder = value; } }
     public List<DataModel> DataList { get => _dataList; set { _dataList = value; } }
@@ -29,6 +29,8 @@ namespace JavaScriptInterpreter
     private static Lazy<MetaFileManager> lazy = new Lazy<MetaFileManager>(() => new MetaFileManager());
     public static MetaFileManager Instance { get { return lazy.Value; } }
     private MetaFileManager() { }
+
+    public int LastClickedButton { get => _lastClickedButton; set { _lastClickedButton = value; } }
 
     public DataModel GetDataModelFromNum(int dataNum)
     {
@@ -42,9 +44,10 @@ namespace JavaScriptInterpreter
       ClearData();
       List<DataModel> DataList = new List<DataModel>();
 
-      if(_rootFolder + metaFileName == null)
+      if (_rootFolder + metaFileName == null)
       {
-
+        LiamDebugger.Message("! ------ ERROR: no meta file exists ------ !", 1);
+        return null;
       }
 
       string[] ImageMetaLines = File.ReadAllLines(_rootFolder + metaFileName);
@@ -55,16 +58,18 @@ namespace JavaScriptInterpreter
         startOfArray++;
         if (startOfArray > ImageMetaLines.Length)
         {
+          LiamDebugger.Message("! ------ ERROR: meta file does not contain \"UNITIMAGE_CREDITS\" ------ !", 2);
           return null;
         }
         continue;
       }
       startOfArray++;
 
-      foreach (string line in ImageMetaLines)
+      for (int i = 0; i < startOfArray; i++)
       {
-        beginMeta = $"{beginMeta}\n{line}";
+        beginMeta = $"{beginMeta}{ImageMetaLines[i]}";
       }
+
       LiamDebugger.Message($"start of metafile: {beginMeta}", 2);
 
 
@@ -76,7 +81,7 @@ namespace JavaScriptInterpreter
           break;
         }
 
-        LiamDebugger.Message($" --------- Adding new Datamodel item ---------", 4);
+        LiamDebugger.Message($" --------- Adding new Datamodel item to list ---------", 4);
 
         string dataName = "";
         string dataTitle = "";
@@ -90,7 +95,7 @@ namespace JavaScriptInterpreter
           dataName = ImageMetaLines[i].Trim();
           dataName = dataName.Remove(dataName.Length - 3); // trim ": {" from end of string
 
-          LiamDebugger.Message($"name: {dataName}", 5);
+          LiamDebugger.Message($"name: {dataName}", 2);
         }
         if (ImageMetaLines[i + 1].Contains("title"))
         {
@@ -162,29 +167,49 @@ namespace JavaScriptInterpreter
     {
       LiamDebugger.Name(GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name, 2);
 
-      for (int i = 0; i < DataList.Count; i++)
+      // -- update meta file -- //
+      stringOfConcern.Clear();
+      DataModel d;
+      ImageButtonMapping.TryGetValue(LastClickedButton, out d);
+      if (d != null)
       {
-        stringOfConcern.Append($"    {i}: {{\n");
-        stringOfConcern.Append($"    title: \"{DataList[i].Title}\"\n");
-        stringOfConcern.Append($"    artist: \"{DataList[i].Artist}\"\n");
-        stringOfConcern.Append($"    url: \"{DataList[i].Url}\"\n");
-        stringOfConcern.Append($"    license: \"{DataList[i].License}\"\n");
-        stringOfConcern.Append($"  }},");
+        LiamDebugger.Message($" --------- Updating Datamodel item ---------", 4);
+
+        d.Title = Form.Ttitle.Text;
+        d.Artist = Form.Tartist.Text;
+        d.Url = Form.Turl.Text;
+        d.License = Form.Tlicense.Text;
       }
 
+      LiamDebugger.Message($" --------- Writing datamodels in string ---------", 4);
+
+      for (int i = 0; i < DataList.Count; i++)
+      {
+        stringOfConcern.Append($"\n    {DataList[i].FileName}: {{\n");
+        stringOfConcern.Append($"      title: \"{DataList[i].Title}\",\n");
+        stringOfConcern.Append($"      artist: \"{DataList[i].Artist}\",\n");
+        stringOfConcern.Append($"      url: \"{DataList[i].Url}\",\n");
+        stringOfConcern.Append($"      license: \"{DataList[i].License}\",\n");
+        stringOfConcern.Append($"    }},");
+      }
+      string midMeta = stringOfConcern.ToString().Remove(stringOfConcern.Length - 1);
+      
       string fileText = "";
       if (DataList.Count > 0)
       {
-        fileText = beginMeta + stringOfConcern.ToString() + endMeta;
+        fileText = beginMeta + midMeta + "\n" + endMeta;
       }
       else
       {
         fileText = beginMeta;
       }
-      LiamDebugger.Message($"about to delete: {RootFolder}imagemeta.js",2); 
+
+      LiamDebugger.Message($" --------- about to delete: {RootFolder}imagemeta.js ---------", 4);
       File.Delete($"{RootFolder}imagemeta.js");
-      LiamDebugger.Message($"deleted: {RootFolder}imagemeta.js",2); 
+      LiamDebugger.Message($"deleted: {RootFolder}imagemeta.js", 2);
       File.WriteAllText($"{RootFolder}imagemeta.js", fileText);
+      LiamDebugger.Message($"saved: {RootFolder}imagemeta.js", 2);
+
     }
     void ClearData()
     {
@@ -196,14 +221,13 @@ namespace JavaScriptInterpreter
       ImageButtonMapping.Clear();
       beginMeta = "";
       stringOfConcern.Clear();
-      //endMeta = "";
     }
     public void LoadDataFromButtonNum(int buttonNum, Button butt)
     {
       LiamDebugger.Name(GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name, 2);
-
       LiamDebugger.Message($"datalist: {DataList}", 2);
-      //DataModel d = DataList[dataNum];
+
+      LastClickedButton = buttonNum;
 
       DataModel d;
       ImageButtonMapping.TryGetValue(buttonNum, out d);

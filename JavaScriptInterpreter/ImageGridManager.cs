@@ -20,6 +20,7 @@ namespace JavaScriptInterpreter
     List<string> imagesInFolder = new List<string>();
     Grid gridFromNumCells;
 
+
     private static Lazy<ImageGridManager> lazy = new Lazy<ImageGridManager>(() => new ImageGridManager());
 
     public static ImageGridManager Instance { get { return lazy.Value; } }
@@ -76,14 +77,12 @@ namespace JavaScriptInterpreter
 
     public void LoadFolderIntoGrid(ScrollViewer scrollViewer)
     {
-      
       LiamDebugger.Name(GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name, 2);
 
       metaFileManager.ImageButtonMapping.Clear();
 
-
       // setup sorted list of images in root folder
-      Regex regex = new Regex(@"^\d+\.jpg$");
+      Regex regex = new Regex(@"(.*\/)\d.*");
       string[] tempImagesInFolder = Directory.GetFiles(metaFileManager.RootFolder, "*.jpg");
       LiamDebugger.Message($"len tempimagesinfolder: {tempImagesInFolder.Length}",2);
       imagesInFolder.Clear();
@@ -168,6 +167,7 @@ namespace JavaScriptInterpreter
     {
       LiamDebugger.Name(GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name, 2);
       LiamDebugger.Message(" -------- click image ---------- ", 2);
+
 
       Button B = sender as Button;
       string buttonNum = B.Name.Remove(0, 1); // remove letter B at front of name

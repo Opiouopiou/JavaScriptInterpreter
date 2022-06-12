@@ -40,7 +40,7 @@ namespace JavaScriptInterpreter
 
 
       metaFileManager = MetaFileManager.Instance;
-      metaFileManager.RootFolder = "K:/Torrent downloads/_temp/gams/2021/FortOfChains/dist/imagepacks/default/gender_female/subrace_demon/";
+      metaFileManager.RootFolder = "K:/Torrent downloads/_temp/gams/Own Stuff/JavaScriptInterpreter/testImageFolder/";
       metaFileManager.DataList = metaFileManager.LoadJsMetaFile();
 
       ImGridManager = ImageGridManager.Instance;
@@ -74,37 +74,26 @@ namespace JavaScriptInterpreter
     //}
 
     //todo
-    // - load folder with browse.
-    // - load all images only with valid data model
     // - browse for image and add it to data list
-    // - save to new meta file
     // - remove image from meta file
-    // - class data in xaml
-    // - hover and select in xaml
+    // - add all images in folder to meta file
 
-    // - add bulk images not yet in meta file
-    // - generate meta file?????
-    // - clear all meta file data?????
 
 
 
     private void SaveMetaJS(object sender, RoutedEventArgs e)
     {
       LiamDebugger.Name(GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name, 2);
-
-      LiamDebugger.Message(" -------- save to imagemets.js ---------- ", 2);
-
-      //int sut = imagesInFolder.Length;
-
-
+      
       metaFileManager.SaveJsMetaFile();
-
+      //metaFileManager.LoadJsMetaFile();
     }
 
     private void ChangeFolder(object sender, RoutedEventArgs e)
     {
+      LiamDebugger.Name(GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name, 2);
+      LiamDebugger.Message(" --------- change folder ---------- ", 2);
       Microsoft.Win32.OpenFileDialog fileBrowserDialog = new Microsoft.Win32.OpenFileDialog();
-      LiamDebugger.Message(" -------- change folder ---------- ", 2);
 
       if (fileBrowserDialog.ShowDialog() == true)
       {
@@ -132,6 +121,11 @@ namespace JavaScriptInterpreter
         Textra.Text = metaFileManager.DataList[0].Extra;
 
       }
+    }
+
+    private void AddAllIm(object sender, RoutedEventArgs e)
+    {
+      Tools.AddExcludedImagesInFolderToMetaFile();
     }
   }
 }

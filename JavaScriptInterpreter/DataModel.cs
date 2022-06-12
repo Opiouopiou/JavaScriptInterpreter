@@ -9,6 +9,7 @@ namespace JavaScriptInterpreter
 {
   public class DataModel :IComparable
   {
+    //int _num;
     string _fileName;
     string _title;
     string _artist;
@@ -16,6 +17,7 @@ namespace JavaScriptInterpreter
     string _license;
     string _extra;
 
+    //public int Num { get => _num; set { _num = value; } }
     public string FileName { get => _fileName; set { _fileName = value; } }
     public string Title { get=>_title; set { _title = value; } }
     public string Artist { get=>_artist; set { _artist = value; } }
