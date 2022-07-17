@@ -82,7 +82,9 @@ namespace JavaScriptInterpreter
       metaFileManager.ImageButtonMapping.Clear();
 
       // setup sorted list of images in root folder
-      Regex regex = new Regex(@"(.*\/)\d.*");
+      Regex regexWithFolder = new Regex(@"(.*\/)\d*.jpg");
+      Regex regex = new Regex(@"\d*.jpg");
+
       string[] tempImagesInFolder = Directory.GetFiles(metaFileManager.RootFolder, "*.jpg");
       LiamDebugger.Message($"len tempimagesinfolder: {tempImagesInFolder.Length}",2);
       imagesInFolder.Clear();
@@ -91,11 +93,14 @@ namespace JavaScriptInterpreter
       {
         string imgFileName = Path.GetFileName(imgPathName);
         LiamDebugger.Message($"img name: {imgFileName}", 2);
-        if (regex.IsMatch(imgFileName))
+        if (regex.IsMatch(imgPathName))
         {
           Console.WriteLine($"regex: {regex} matches string {imgFileName}");
           imagesInFolder.Add(imgPathName);
+          continue;
         }
+        LiamDebugger.Message($"regex: {regex} did not match string {imgFileName}",2);
+
       }
       imagesInFolder.Sort();
       LiamDebugger.Message($"count imagesInFolder: {imagesInFolder.Count}", 2);
@@ -120,20 +125,26 @@ namespace JavaScriptInterpreter
         butt.Name = $"B{i}";
         butt.Click += ImageButtonClick;
 
+        string testRoot= "K:/Torrent downloads/_temp/gams/2021/FortOfChains/dist/imagepacks/default/gender_female/subrace_dragonkin_editted/";
+
         // create image
         LiamDebugger.Message($"metafile: {metaFileManager.DataList[i - 1].FileName}, button: {i-1}", 2);
-        LiamDebugger.Message($"button: {i-1}", 2);
-
         if (File.Exists($"{metaFileManager.RootFolder}{metaFileManager.DataList[i - 1].FileName}.jpg"))
+        //if (File.Exists($"{testRoot}{metaFileManager.DataList[i - 1].FileName}.jpg"))
         {
+          LiamDebugger.Message($"Existing file to load into button: {metaFileManager.RootFolder}{metaFileManager.DataList[i - 1].FileName}.jpg", 2);
+
           Image im = new Image();
-          im.Source = new BitmapImage(new Uri($"{metaFileManager.RootFolder}{metaFileManager.DataList[i - 1].FileName}.jpg"));
+          BitmapImage bi = new BitmapImage();
+          //bi.CacheOption = BitmapCacheOption.OnLoad;
+          bi.UriSource = new Uri($"{metaFileManager.RootFolder}{metaFileManager.DataList[i - 1].FileName}.jpg",UriKind.Relative);
+          im.Source = bi;
           butt.Content = im;
         }
         else
         {
-          LiamDebugger.Message($"{metaFileManager.RootFolder}{metaFileManager.DataList[i - 1].FileName}.jpg", 2);
-          butt.Content = $"missing image file: \n {metaFileManager.DataList[i - 1].FileName}.jpg \n Check file type";
+          LiamDebugger.Message($"Missing file: {metaFileManager.RootFolder}{metaFileManager.DataList[i - 1].FileName}.jpg", 2);
+          butt.Content = $"missing image file: \n {metaFileManager.RootFolder}{metaFileManager.DataList[i - 1].FileName}.jpg \n Check file type";
         }
 
 

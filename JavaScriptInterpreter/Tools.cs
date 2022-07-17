@@ -45,8 +45,8 @@ namespace JavaScriptInterpreter
         string metadataName = Path.GetFileName(imName);
         metadataName = metadataName.Remove(metadataName.Length - 4);
 
-        bool existsInMetaData = MetaFileManager.Instance.DataList.Any(d => d.FileName == imName);
-        LiamDebugger.Message($"exists in metadata = {existsInMetaData}", 2);
+        bool existsInMetaData = MetaFileManager.Instance.DataList.Any(d => d.FileName == metadataName);
+        LiamDebugger.Message($"{imName} exists in metadata = {existsInMetaData}", 2);
         if (regexIsJpg.IsMatch(imName) && regexIsValidFileName.IsMatch(imName) && !existsInMetaData)
         {
           LiamDebugger.Message($"imName is jpg, does not exist in metadata and IS valid filename {imName}, adding to database and renaming file", 2);
@@ -59,22 +59,37 @@ namespace JavaScriptInterpreter
           continue;
         }
 
-        LiamDebugger.Message($"imName already exists. Moving to next loop", 2);
+        LiamDebugger.Message($"imName already exists. Iterating to next loop", 2);
 
       }
+      MetaFileManager.Instance.LoadJsMetaFile();
       MetaFileManager.Instance.SaveJsMetaFile();
     }
 
     static public void RemoveUnusedMetaFileData()
     {
       LiamDebugger.Message(System.Reflection.MethodBase.GetCurrentMethod().Name, 2);
+      List<DataModel> dataToRemove = new List<DataModel>();
+      foreach (DataModel data in MetaFileManager.Instance.DataList)
+      {
+        string name = data.FileName;
+        string checkExists = $"{MetaFileManager.Instance.RootFolder}{name}.jpg";
+        LiamDebugger.Message($"checking if {name} is in folder", 2);
 
+        if(!File.Exists(checkExists))
+        {
+          LiamDebugger.Message($"{name} exists in meta but not in folder", 2);
+          dataToRemove.Add(data);
+        }
+
+        MetaFileManager.Instance.DataList = MetaFileManager.Instance.DataList.Except(dataToRemove).ToList();
+        MetaFileManager.Instance.SaveJsMetaFile();
+      }
     }
 
     static public void ConvertImagesToJpg()
     {
       LiamDebugger.Message(System.Reflection.MethodBase.GetCurrentMethod().Name, 2);
-
     }
 
     static private int ItterateToNonExistingFile(int fileNum)
@@ -129,6 +144,20 @@ namespace JavaScriptInterpreter
         num++;
       }
       return num;
+    }
+
+    static public bool IsValidFileName(string fileName)
+    {
+      LiamDebugger.Message(System.Reflection.MethodBase.GetCurrentMethod().Name, 2);
+      Regex regexIsValidFileName = new Regex(@"(.*\/)\d\..*"); // check if it matches the 1.jpg format
+      return regexIsValidFileName.IsMatch(fileName);      
+    }
+
+    static public bool IsJpgFileName(string fileName)
+    {
+      LiamDebugger.Message(System.Reflection.MethodBase.GetCurrentMethod().Name, 2);
+      Regex regexIsJpg = new Regex(@".*.jpg"); // check if is jpg
+      return regexIsJpg.IsMatch(fileName);
     }
 
   }

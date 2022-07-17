@@ -127,5 +127,10 @@ namespace JavaScriptInterpreter
     {
       Tools.AddExcludedImagesInFolderToMetaFile();
     }
+
+    private void RemoveExcessMeta(object sender, RoutedEventArgs e)
+    {
+      Tools.RemoveUnusedMetaFileData();
+    }
   }
 }

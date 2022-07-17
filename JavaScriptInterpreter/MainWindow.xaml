@@ -27,7 +27,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <ScrollViewer Grid.Row="1" Grid.Column="0" Grid.RowSpan="20" Name="scrollViewer"/>
-        <Image Grid.Row="0" Grid.Column="1" Grid.RowSpan="6" x:Name="Idisplay" Stretch="Uniform"/>
+        <Image Grid.Row="0" Grid.Column="1" Grid.RowSpan="6" x:Name="Idisplay" Stretch="Uniform" />
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
@@ -36,7 +36,7 @@
             </Grid.ColumnDefinitions>
             <Button Grid.Column="0" Content="Change folder" Name="BchangeFolder" Click="ChangeFolder"/>
             <Button Grid.Column="1" Content="Add all images in folder" Name="BaddAllIm" Click="AddAllIm"/>
-            <Button Grid.Column="2" Content="Remove" Name="Bremove"/>
+            <Button Grid.Column="2" Content="Remove all excess ImageMetaFile items" Name="Bremove" Click="RemoveExcessMeta"/>
         </Grid>
         <Grid Grid.Column="1" Grid.Row="7">
             <Grid.ColumnDefinitions>

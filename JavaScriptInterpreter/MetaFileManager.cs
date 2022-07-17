@@ -12,7 +12,7 @@ namespace JavaScriptInterpreter
   public class MetaFileManager
   {
     string _rootFolder = "K:/Torrent downloads/_temp/gams/Own Stuff/JavaScriptInterpreter/testImageFolder/";
-    int _lastClickedButton;
+    int _lastClickedButton = 1;
     List<DataModel> _dataList;
     string metaFileName = "imagemeta.js";
     MainWindow Form = Application.Current.Windows[0] as MainWindow;
@@ -67,7 +67,7 @@ namespace JavaScriptInterpreter
 
       for (int i = 0; i < startOfArray; i++)
       {
-        beginMeta = $"{beginMeta}{ImageMetaLines[i]}";
+        beginMeta = $"{beginMeta}{ImageMetaLines[i]} \n";
       }
 
       LiamDebugger.Message($"start of metafile: {beginMeta}", 2);
@@ -181,7 +181,7 @@ namespace JavaScriptInterpreter
         d.License = Form.Tlicense.Text;
       }
 
-      LiamDebugger.Message($" --------- Writing datamodels in string ---------", 4);
+      LiamDebugger.Message($" --------- Writing datamodels in string ---------", 2);
 
       for (int i = 0; i < DataList.Count; i++)
       {
@@ -192,8 +192,12 @@ namespace JavaScriptInterpreter
         stringOfConcern.Append($"      license: \"{DataList[i].License}\",\n");
         stringOfConcern.Append($"    }},");
       }
-      string midMeta = stringOfConcern.ToString().Remove(stringOfConcern.Length - 1);
-      
+      string midMeta = "";
+      if (stringOfConcern.Length > 0)
+      {
+        midMeta = stringOfConcern.ToString().Remove(stringOfConcern.Length - 1);
+      }
+
       string fileText = "";
       if (DataList.Count > 0)
       {
@@ -201,8 +205,15 @@ namespace JavaScriptInterpreter
       }
       else
       {
-        fileText = beginMeta;
+        fileText = beginMeta + "\n" + endMeta;
       }
+
+      //LiamDebugger.Message($"Datamodel list:",2);
+      //foreach (var datamodel in DataList)
+      //{
+      //  LiamDebugger.Message($"filename: {datamodel.FileName}", 2);
+      //}
+
 
       LiamDebugger.Message($" --------- about to delete: {RootFolder}imagemeta.js ---------", 4);
       File.Delete($"{RootFolder}imagemeta.js");
@@ -239,8 +250,15 @@ namespace JavaScriptInterpreter
 
       if (uri.Length == 1)
       {
-        im.Source = new BitmapImage(new Uri(uri[0]));
-        Form.Idisplay.Source = new BitmapImage(new Uri(uri[0]));
+        BitmapImage bi = new BitmapImage();
+        bi.BeginInit();
+        bi.CacheOption = BitmapCacheOption.OnLoad;
+        bi.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
+        bi.UriSource = new Uri(uri[0],UriKind.Relative);
+        bi.EndInit();
+        im.Source = bi;
+
+        Form.Idisplay.Source = bi;
         Form.Tartist.Text = d.Artist;
         Form.Textra.Text = d.Extra;
         Form.Tlicense.Text = d.License;
