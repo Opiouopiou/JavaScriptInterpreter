@@ -1,22 +1,40 @@
-(function () {    
-/* The following is list of direct subdirectories. */    
-UNITIMAGE_LOAD_FURTHER = ["bg_noble",]    
-/* Image credit information. */    
-UNITIMAGE_CREDITS = {   
+(function () {                                
+/* The following is list of direct subdirectories. */                                
+UNITIMAGE_LOAD_FURTHER = ["bg_noble",]                                
+/* Image credit information. */                                
+UNITIMAGE_CREDITS = {                              
 
+    4: {
+      title: "",
+      artist: "",
+      url: "",
+      license: "",
+    },
+    18: {
+      title: "unknown",
+      artist: "unkown",
+      url: "unknown",
+      license: "unkown",
+    },
+    6: {
+      title: "unknown",
+      artist: "unkown",
+      url: "unknown",
+      license: "unkown",
+    },
+    2: {
+      title: "unknown",
+      artist: "unkown",
+      url: "unknown",
+      license: "unkown",
+    },
     1: {
-      title: "Vampire Knight",
-      artist: "toy1989820",
-      url: "https://www.deviantart.com/toy1989820/art/Vampire-Knight-370160786",
-      license: "CC-BY-NC-ND 3.0",
+      title: "unknown",
+      artist: "unkown",
+      url: "unknown",
+      license: "unkown",
     },
     3: {
-      title: "sdsd",
-      artist: "acxac",
-      url: "asdasda",
-      license: "xzszdvdbsd",
-    },
-    4: {
       title: "unknown",
       artist: "unkown",
       url: "unknown",
