@@ -77,7 +77,7 @@
             <TextBlock Grid.Column="0" Grid.Row="0" Text="Extra:" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="20" Margin="20,0,0,0"/>
             <TextBox Grid.Column="1" Grid.Row="0" Name="Textra"/>
         </Grid>
-        <Button Grid.Row="12" Grid.Column="1" Content="Save to imagemeta.js" Click="SaveMetaJS"/>
+        <Button Grid.Row="12" Grid.Column="1" Content="Update image data" Click="SaveMetaJS"/>
         <!--<Button Grid.Row="12" Grid.Column="0" >
             <Image Source="url" Stretch="Uniform">
         </Button>-->

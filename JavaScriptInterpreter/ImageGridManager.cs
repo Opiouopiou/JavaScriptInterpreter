@@ -156,8 +156,8 @@ namespace JavaScriptInterpreter
         }
         else
         {
-          LiamDebugger.Message($"Missing file: {metaFileManager.RootFolder}{metaFileManager.DataList[i - 1].FileName}.jpg", 2);
-          butt.Content = $"missing image file: \n {metaFileManager.RootFolder}{metaFileManager.DataList[i - 1].FileName}.jpg";
+          LiamDebugger.Message($"Missing file: {metaFileManager.DataList[i - 1].FileName}.jpg", 2);
+          butt.Content = $"missing image file: \n {metaFileManager.DataList[i - 1].FileName}.jpg";
         }
 
 
