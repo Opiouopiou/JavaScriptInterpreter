@@ -32,11 +32,10 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
-                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Button Grid.Column="0" Content="Change folder" Name="BchangeFolder" Click="ChangeFolder"/>
-            <Button Grid.Column="1" Content="Add all images in folder" Name="BaddAllIm" Click="AddAllIm"/>
-            <Button Grid.Column="2" Content="Remove all excess ImageMetaFile items" Name="Bremove" Click="RemoveExcessMeta"/>
+            <Button Grid.Column="1" Content="Update folder" Name="BaddAllIm" Click="UpdateFolder"/>
+            <!--<Button Grid.Column="2" Content="Remove all excess ImageMetaFile items" Name="Bremove" Click="RemoveExcessMeta"/>-->
         </Grid>
         <Grid Grid.Column="1" Grid.Row="7">
             <Grid.ColumnDefinitions>
@@ -79,5 +78,8 @@
             <TextBox Grid.Column="1" Grid.Row="0" Name="Textra"/>
         </Grid>
         <Button Grid.Row="12" Grid.Column="1" Content="Save to imagemeta.js" Click="SaveMetaJS"/>
+        <!--<Button Grid.Row="12" Grid.Column="0" >
+            <Image Source="url" Stretch="Uniform">
+        </Button>-->
     </Grid>
 </Window>

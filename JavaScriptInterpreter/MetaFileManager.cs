@@ -13,7 +13,7 @@ namespace JavaScriptInterpreter
   {
     string _rootFolder = "K:/Torrent downloads/_temp/gams/Own Stuff/JavaScriptInterpreter/testImageFolder/";
     int _lastClickedButton = 1;
-    List<DataModel> _dataList;
+    List<DataModel> _dataList = new List<DataModel>();
     string metaFileName = "imagemeta.js";
     MainWindow Form = Application.Current.Windows[0] as MainWindow;
 
@@ -24,7 +24,7 @@ namespace JavaScriptInterpreter
     string endMeta = "  }\n \n}());\n";
     string _displayImageSource = "";
     public string RootFolder { get => _rootFolder; set { _rootFolder = value; } }
-    public List<DataModel> DataList { get => _dataList; set { _dataList = value; } }
+    public List<DataModel> DataList { get { if (_dataList == null) _dataList = new List<DataModel>(); return _dataList; } set { _dataList = value; } }
     public string DisplayImageSource { get => _displayImageSource; set { _displayImageSource = value; } }
     private static Lazy<MetaFileManager> lazy = new Lazy<MetaFileManager>(() => new MetaFileManager());
     public static MetaFileManager Instance { get { return lazy.Value; } }
@@ -73,6 +73,19 @@ namespace JavaScriptInterpreter
       LiamDebugger.Message($"start of metafile: {beginMeta}", 2);
 
 
+      // ------------- setup begin meta complete ---------------- //
+
+      while (!ImageMetaLines[startOfArray].Contains("{"))
+      {
+        startOfArray++;
+        if (startOfArray > ImageMetaLines.Length - 1)
+        {
+          LiamDebugger.Message("! ------ ERROR: Could not find start of data ------ !", 2);
+          return null;
+        }
+      }
+
+
       for (int i = startOfArray; i < ImageMetaLines.Length; i++)
       {
         if (i + 5 >= ImageMetaLines.Length)
@@ -80,6 +93,18 @@ namespace JavaScriptInterpreter
           LiamDebugger.Message($"Exiting Data load loop", 2);
           break;
         }
+
+        // find next start of data
+        while (!ImageMetaLines[i].Contains("{"))
+        {
+          if (i > ImageMetaLines.Length)
+          {
+            LiamDebugger.Message("! ------ ERROR: Could not find start of data ------ !", 2);
+            break;
+          }
+          i++;
+        }
+
 
         LiamDebugger.Message($" --------- Adding new Datamodel item to list ---------", 4);
 
@@ -154,12 +179,13 @@ namespace JavaScriptInterpreter
           i = i + 6;
         }
       }
-      if (DataList.Count > 0)
+      if (DataList.Count > 0) // This will execute if there were no items
       {
         LiamDebugger.Message($"end of metafile: {endMeta}", 2);
 
       }
       //DataList.Sort();
+
       return DataList;
     }
 
@@ -182,31 +208,36 @@ namespace JavaScriptInterpreter
       }
 
       LiamDebugger.Message($" --------- Writing datamodels in string ---------", 2);
-
-      for (int i = 0; i < DataList.Count; i++)
-      {
-        stringOfConcern.Append($"\n    {DataList[i].FileName}: {{\n");
-        stringOfConcern.Append($"      title: \"{DataList[i].Title}\",\n");
-        stringOfConcern.Append($"      artist: \"{DataList[i].Artist}\",\n");
-        stringOfConcern.Append($"      url: \"{DataList[i].Url}\",\n");
-        stringOfConcern.Append($"      license: \"{DataList[i].License}\",\n");
-        stringOfConcern.Append($"    }},");
-      }
       string midMeta = "";
-      if (stringOfConcern.Length > 0)
+      if (DataList == null)
       {
-        midMeta = stringOfConcern.ToString().Remove(stringOfConcern.Length - 1);
-      }
-
-      string fileText = "";
-      if (DataList.Count > 0)
-      {
-        fileText = beginMeta + midMeta + "\n" + endMeta;
+        // do nothing
       }
       else
       {
-        fileText = beginMeta + "\n" + endMeta;
+        for (int i = 0; i < DataList.Count; i++)
+        {
+          stringOfConcern.Append($"\n    {DataList[i].FileName}: {{\n");
+          stringOfConcern.Append($"      title: \"{DataList[i].Title}\",\n");
+          stringOfConcern.Append($"      artist: \"{DataList[i].Artist}\",\n");
+          stringOfConcern.Append($"      url: \"{DataList[i].Url}\",\n");
+          stringOfConcern.Append($"      license: \"{DataList[i].License}\",\n");
+          stringOfConcern.Append($"    }},");
+        }
+        if (stringOfConcern.Length > 0)
+        {
+          midMeta = stringOfConcern.ToString().Remove(stringOfConcern.Length - 1);
+        }
       }
+        string fileText = "";
+        if (DataList != null && DataList.Count > 0)
+        {
+          fileText = beginMeta + midMeta + "\n" + endMeta;
+        }
+        else
+        {
+          fileText = beginMeta + "\n" + endMeta;
+        }
 
       //LiamDebugger.Message($"Datamodel list:",2);
       //foreach (var datamodel in DataList)
@@ -219,7 +250,7 @@ namespace JavaScriptInterpreter
       File.Delete($"{RootFolder}imagemeta.js");
       LiamDebugger.Message($"deleted: {RootFolder}imagemeta.js", 2);
       File.WriteAllText($"{RootFolder}imagemeta.js", fileText);
-      LiamDebugger.Message($"saved: {RootFolder}imagemeta.js", 2);
+      LiamDebugger.Message($"saved:   {RootFolder}imagemeta.js", 2);
 
     }
     void ClearData()
@@ -246,7 +277,7 @@ namespace JavaScriptInterpreter
 
       string[] uri = Directory.GetFiles(_rootFolder, $"{d.FileName}.jpg");
       LiamDebugger.Message($"dataNum: {d.FileName}, searching for {_rootFolder}{d.FileName}.jpg", 2);
-      LiamDebugger.Message($"num files gotten: {uri.Length}", 2);
+      //LiamDebugger.Message($"num files gotten: {uri.Length}", 2);
 
       if (uri.Length == 1)
       {
@@ -254,7 +285,7 @@ namespace JavaScriptInterpreter
         bi.BeginInit();
         bi.CacheOption = BitmapCacheOption.OnLoad;
         bi.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
-        bi.UriSource = new Uri(uri[0],UriKind.Relative);
+        bi.UriSource = new Uri(uri[0], UriKind.Relative);
         bi.EndInit();
         im.Source = bi;
 
@@ -266,6 +297,7 @@ namespace JavaScriptInterpreter
         Form.Turl.Text = d.Url;
       }
       LiamDebugger.Message($"image source = {Form.Idisplay.Source}", 2);
+      ImageGridManager.Instance.LoadFolderIntoGrid();
     }
   }
 }

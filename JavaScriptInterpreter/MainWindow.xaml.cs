@@ -48,7 +48,7 @@ namespace JavaScriptInterpreter
 
 
 
-      ImGridManager.LoadFolderIntoGrid(scrollViewer);
+      ImGridManager.LoadFolderIntoGrid();
 
       //LoadFirstImageInFolder();
     }
@@ -103,7 +103,7 @@ namespace JavaScriptInterpreter
         string pathNew = path.Remove(path.Length - pathSplit[len].Length);
         metaFileManager.RootFolder = pathNew;
         metaFileManager.DataList = metaFileManager.LoadJsMetaFile();
-        ImGridManager.LoadFolderIntoGrid(scrollViewer);
+        ImGridManager.LoadFolderIntoGrid();
         //LoadFirstImageInFolder();
 
       }
@@ -123,14 +123,11 @@ namespace JavaScriptInterpreter
       }
     }
 
-    private void AddAllIm(object sender, RoutedEventArgs e)
-    {
-      Tools.AddExcludedImagesInFolderToMetaFile();
-    }
-
-    private void RemoveExcessMeta(object sender, RoutedEventArgs e)
+    private void UpdateFolder(object sender, RoutedEventArgs e)
     {
       Tools.RemoveUnusedMetaFileData();
+      Tools.AddExcludedImagesInFolderToMetaFile();
+
     }
   }
 }

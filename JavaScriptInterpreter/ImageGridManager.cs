@@ -18,7 +18,7 @@ namespace JavaScriptInterpreter
     int _gridCols = 3;
     MetaFileManager metaFileManager;
     List<string> imagesInFolder = new List<string>();
-    Grid gridFromNumCells;
+    public Grid gridFromNumCells;
 
 
     private static Lazy<ImageGridManager> lazy = new Lazy<ImageGridManager>(() => new ImageGridManager());
@@ -40,7 +40,7 @@ namespace JavaScriptInterpreter
       return gridNumber;
     }
 
-    public Grid CreateGridFromNumOfCells(int num)
+    private Grid CreateGridFromNumOfCells(int num)
     {
       LiamDebugger.Name(GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name, 2);
 
@@ -75,18 +75,26 @@ namespace JavaScriptInterpreter
     }
 
 
-    public void LoadFolderIntoGrid(ScrollViewer scrollViewer)
+    public void LoadFolderIntoGrid()
     {
       LiamDebugger.Name(GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name, 2);
 
       metaFileManager.ImageButtonMapping.Clear();
+
+      if (metaFileManager.DataList == null)
+      {
+        return;
+      }
+
+      MainWindow Form = Application.Current.Windows[0] as MainWindow;
+      ScrollViewer scrollViewer = Form.scrollViewer;
 
       // setup sorted list of images in root folder
       Regex regexWithFolder = new Regex(@"(.*\/)\d*.jpg");
       Regex regex = new Regex(@"\d*.jpg");
 
       string[] tempImagesInFolder = Directory.GetFiles(metaFileManager.RootFolder, "*.jpg");
-      LiamDebugger.Message($"len tempimagesinfolder: {tempImagesInFolder.Length}",2);
+      LiamDebugger.Message($"len tempimagesinfolder: {tempImagesInFolder.Length}", 2);
       imagesInFolder.Clear();
 
       foreach (string imgPathName in tempImagesInFolder)
@@ -99,7 +107,7 @@ namespace JavaScriptInterpreter
           imagesInFolder.Add(imgPathName);
           continue;
         }
-        LiamDebugger.Message($"regex: {regex} did not match string {imgFileName}",2);
+        LiamDebugger.Message($"regex: {regex} did not match string {imgFileName}", 2);
 
       }
       imagesInFolder.Sort();
@@ -125,26 +133,31 @@ namespace JavaScriptInterpreter
         butt.Name = $"B{i}";
         butt.Click += ImageButtonClick;
 
-        string testRoot= "K:/Torrent downloads/_temp/gams/2021/FortOfChains/dist/imagepacks/default/gender_female/subrace_dragonkin_editted/";
 
         // create image
-        LiamDebugger.Message($"metafile: {metaFileManager.DataList[i - 1].FileName}, button: {i-1}", 2);
+        LiamDebugger.Message($"metafile: {metaFileManager.DataList[i - 1].FileName}, button: {i - 1}", 2);
         if (File.Exists($"{metaFileManager.RootFolder}{metaFileManager.DataList[i - 1].FileName}.jpg"))
         //if (File.Exists($"{testRoot}{metaFileManager.DataList[i - 1].FileName}.jpg"))
         {
           LiamDebugger.Message($"Existing file to load into button: {metaFileManager.RootFolder}{metaFileManager.DataList[i - 1].FileName}.jpg", 2);
 
           Image im = new Image();
-          BitmapImage bi = new BitmapImage();
+          //BitmapImage bi = new BitmapImage();
           //bi.CacheOption = BitmapCacheOption.OnLoad;
-          bi.UriSource = new Uri($"{metaFileManager.RootFolder}{metaFileManager.DataList[i - 1].FileName}.jpg",UriKind.Relative);
-          im.Source = bi;
+          //bi.UriSource = new Uri($"{metaFileManager.RootFolder}{metaFileManager.DataList[i - 1].FileName}.jpg", UriKind.Relative);
+          //im.Source = bi;
+
+          //ImageBrush imb = new ImageBrush();
+          string source = $@"{metaFileManager.RootFolder}{metaFileManager.DataList[i - 1].FileName}.jpg";
+          im.Source = new BitmapImage(new Uri(source));//, UriKind.Relative));
+          //imb.ImageSource = im.Source;
+          //imb.Stretch = Stretch.UniformToFill;
           butt.Content = im;
         }
         else
         {
           LiamDebugger.Message($"Missing file: {metaFileManager.RootFolder}{metaFileManager.DataList[i - 1].FileName}.jpg", 2);
-          butt.Content = $"missing image file: \n {metaFileManager.RootFolder}{metaFileManager.DataList[i - 1].FileName}.jpg \n Check file type";
+          butt.Content = $"missing image file: \n {metaFileManager.RootFolder}{metaFileManager.DataList[i - 1].FileName}.jpg";
         }
 
 
@@ -154,17 +167,13 @@ namespace JavaScriptInterpreter
 
         // add to grid cell
         gridFromNumCells.Children.Add(butt);
+        //gridFromNumCells.VerticalAlignment = VerticalAlignment.Top;
         Grid.SetRow(butt, rowi);
         Grid.SetColumn(butt, coli);
-
-        //ImageBrush imb = new ImageBrush();
-        //imb.Stretch = Stretch.Uniform;
-        //imb.ImageSource = im.Source;
         //butt.color = imb;
 
 
 
-        //generatedImageGrid.VerticalAlignment = VerticalAlignment.Top;
       }
 
 
