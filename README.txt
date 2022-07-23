@@ -13,3 +13,4 @@ Update folder:
  - remove any excess metafiles that have no corresponding image (#.jpg) 
  - rename any jpg image to unique "#.jpg"
  - add any images in the folder which are not yet in metafile to metafile and to gui's grid
+ - any new data will be filled with "unknown in all fields"

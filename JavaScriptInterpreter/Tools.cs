@@ -52,7 +52,7 @@ namespace JavaScriptInterpreter
           File.Move(fromFile, toFile);
 
           LiamDebugger.Message($"creating new data item with name: {newFileNum}", 2);
-          DataModel newDataItem = new DataModel(newFileNum.ToString(), "unknown", "unkown", "unknown", "unkown", "unknown");
+          DataModel newDataItem = new DataModel(newFileNum.ToString(), "unknown", "unkown", "unknown", "unknown", "unknown");
           MetaFileManager.Instance.DataList.Add(newDataItem);
           continue;
         }

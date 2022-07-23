@@ -15,7 +15,7 @@ namespace JavaScriptInterpreter
 {
   public class ImageGridManager
   {
-    int _gridCols = 3;
+    int _gridCols = 4;
     MetaFileManager metaFileManager;
     List<string> imagesInFolder = new List<string>();
     public Grid gridFromNumCells;
