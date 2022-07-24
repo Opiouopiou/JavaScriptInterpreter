@@ -40,31 +40,14 @@ namespace JavaScriptInterpreter
 
 
       metaFileManager = MetaFileManager.Instance;
-
-
-      string path = @"C:\Folder1\Folder2\Folder3\Folder4";
-      string newPath = System.IO.Path.GetFullPath(System.IO.Path.Combine(path, "..", ".."));
-      LiamDebugger.Message($"{newPath}",2);
-
-
-
-      metaFileManager.FolderPath = "K:/Torrent downloads/_temp/gams/Own Stuff/JavaScriptInterpreter/testImageFolder/";
-      LiamDebugger.Message($"{metaFileManager.FolderPath}",2);
-
-
-      string workingPath = Directory.GetCurrentDirectory();
-      //LiamDebugger.Message(workingPath, 2);
-      workingPath = System.IO.Path.GetFullPath(System.IO.Path.Combine(workingPath, @"..\..\..\"));
-      //LiamDebugger.Message(workingPath, 2);
-
-      metaFileManager.FolderPath = $"{workingPath}/testImageFolder/";
-      //LiamDebugger.Message($"{metaFileManager.FolderPath}",2);
-
-      metaFileManager.DataList = metaFileManager.LoadJsMetaFile();
-
       ImGridManager = ImageGridManager.Instance;
 
+      string workingPath = Directory.GetCurrentDirectory();
+      workingPath = System.IO.Path.GetFullPath(System.IO.Path.Combine(workingPath, @"..\..\..\"));
 
+      metaFileManager.FolderPath = $"{workingPath}/testImageFolder/";
+
+      metaFileManager.DataList = metaFileManager.LoadJsMetaFile();
 
 
       ImGridManager.LoadFolderIntoGrid();
@@ -144,9 +127,23 @@ namespace JavaScriptInterpreter
 
     private void UpdateFolder(object sender, RoutedEventArgs e)
     {
+      GetAllChildFolders();
       Tools.RemoveUnusedMetaFileData();
       Tools.AddExcludedImagesInFolderToMetaFile();
 
     }
+
+    private string[] GetAllChildFolders()
+    {
+      string[] paths = Directory.GetDirectories(metaFileManager.FolderPath);
+
+      foreach(string path in paths)
+      {
+        LiamDebugger.Message($"{path}",2);
+      }
+
+      return null;
+    }
+
   }
 }
