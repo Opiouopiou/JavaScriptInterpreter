@@ -15,7 +15,7 @@ namespace JavaScriptInterpreter
     {
       LiamDebugger.Message(System.Reflection.MethodBase.GetCurrentMethod().Name, 2);
 
-      string[] tempFilesInFolder = Directory.GetFiles(MetaFileManager.Instance.RootFolder, "*.jpg");
+      string[] tempFilesInFolder = Directory.GetFiles(MetaFileManager.Instance.FolderPath, "*.jpg");
 
       Regex regexIsValidFileName = new Regex(@"(.*\/)\d\..*"); // check if it matches the 1.jpg format
       Regex regexIsJpg = new Regex(@".*.jpg"); // check if is jpg
@@ -45,7 +45,7 @@ namespace JavaScriptInterpreter
           int newFileNum = ItterateToNonExistingItem();
 
           string fromFile = $"{imName}";
-          string toFile = $"{MetaFileManager.Instance.RootFolder}{newFileNum}.jpg";
+          string toFile = $"{MetaFileManager.Instance.FolderPath}{newFileNum}.jpg";
 
           LiamDebugger.Message($"attempting to change file name from {fromFile} to {toFile}", 2);
 
@@ -92,7 +92,7 @@ namespace JavaScriptInterpreter
       foreach (DataModel data in MetaFileManager.Instance.DataList)
       {
         string name = data.FileName;
-        string checkExists = $"{MetaFileManager.Instance.RootFolder}{name}.jpg";
+        string checkExists = $"{MetaFileManager.Instance.FolderPath}{name}.jpg";
         LiamDebugger.Message($"checking if {name} is in folder", 2);
 
         if (!File.Exists(checkExists))
@@ -123,7 +123,7 @@ namespace JavaScriptInterpreter
 
       while (true)
       {
-        string path = $"{MetaFileManager.Instance.RootFolder}{fileNum}.jpg";
+        string path = $"{MetaFileManager.Instance.FolderPath}{fileNum}.jpg";
         if (File.Exists(path))
         {
           fileNum++;
@@ -139,7 +139,7 @@ namespace JavaScriptInterpreter
 
       while (true)
       {
-        string path = $"{MetaFileManager.Instance.RootFolder}{dataNum}.jpg";
+        string path = $"{MetaFileManager.Instance.FolderPath}{dataNum}.jpg";
         if (MetaFileManager.Instance.DataList.Any(d => d.FileName == dataNum.ToString()))
         {
           dataNum++;
@@ -161,7 +161,7 @@ namespace JavaScriptInterpreter
 
       while (true)
       {
-        string path = $"{MetaFileManager.Instance.RootFolder}{num}.jpg";
+        string path = $"{MetaFileManager.Instance.FolderPath}{num}.jpg";
         bool fileExists = File.Exists(path);
         bool dataExists = MetaFileManager.Instance.DataList.Any(d => d.FileName == num.ToString());
 

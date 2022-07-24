@@ -40,7 +40,26 @@ namespace JavaScriptInterpreter
 
 
       metaFileManager = MetaFileManager.Instance;
-      metaFileManager.RootFolder = "K:/Torrent downloads/_temp/gams/Own Stuff/JavaScriptInterpreter/testImageFolder/";
+
+
+      string path = @"C:\Folder1\Folder2\Folder3\Folder4";
+      string newPath = System.IO.Path.GetFullPath(System.IO.Path.Combine(path, "..", ".."));
+      LiamDebugger.Message($"{newPath}",2);
+
+
+
+      metaFileManager.FolderPath = "K:/Torrent downloads/_temp/gams/Own Stuff/JavaScriptInterpreter/testImageFolder/";
+      LiamDebugger.Message($"{metaFileManager.FolderPath}",2);
+
+
+      string workingPath = Directory.GetCurrentDirectory();
+      //LiamDebugger.Message(workingPath, 2);
+      workingPath = System.IO.Path.GetFullPath(System.IO.Path.Combine(workingPath, @"..\..\..\"));
+      //LiamDebugger.Message(workingPath, 2);
+
+      metaFileManager.FolderPath = $"{workingPath}/testImageFolder/";
+      //LiamDebugger.Message($"{metaFileManager.FolderPath}",2);
+
       metaFileManager.DataList = metaFileManager.LoadJsMetaFile();
 
       ImGridManager = ImageGridManager.Instance;
@@ -101,7 +120,7 @@ namespace JavaScriptInterpreter
         string[] pathSplit = path.Split('\\');
         int len = pathSplit.Length - 1;
         string pathNew = path.Remove(path.Length - pathSplit[len].Length);
-        metaFileManager.RootFolder = pathNew;
+        metaFileManager.FolderPath = pathNew;
         metaFileManager.DataList = metaFileManager.LoadJsMetaFile();
         ImGridManager.LoadFolderIntoGrid();
         //LoadFirstImageInFolder();

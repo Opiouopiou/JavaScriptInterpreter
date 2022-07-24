@@ -23,7 +23,7 @@ namespace JavaScriptInterpreter
     StringBuilder stringOfConcern = new StringBuilder();
     string endMeta = "  }\n \n}());\n";
     string _displayImageSource = "";
-    public string RootFolder { get => _rootFolder; set { _rootFolder = value; } }
+    public string FolderPath { get => _rootFolder; set { _rootFolder = value; } }
     public List<DataModel> DataList { get { if (_dataList == null) _dataList = new List<DataModel>(); return _dataList; } set { _dataList = value; } }
     public string DisplayImageSource { get => _displayImageSource; set { _displayImageSource = value; } }
     private static Lazy<MetaFileManager> lazy = new Lazy<MetaFileManager>(() => new MetaFileManager());
@@ -246,11 +246,11 @@ namespace JavaScriptInterpreter
       //}
 
 
-      LiamDebugger.Message($" --------- about to delete: {RootFolder}imagemeta.js ---------", 4);
-      File.Delete($"{RootFolder}imagemeta.js");
-      LiamDebugger.Message($"deleted: {RootFolder}imagemeta.js", 2);
-      File.WriteAllText($"{RootFolder}imagemeta.js", fileText);
-      LiamDebugger.Message($"saved:   {RootFolder}imagemeta.js", 2);
+      LiamDebugger.Message($" --------- about to delete: {FolderPath}imagemeta.js ---------", 4);
+      File.Delete($"{FolderPath}imagemeta.js");
+      LiamDebugger.Message($"deleted: {FolderPath}imagemeta.js", 2);
+      File.WriteAllText($"{FolderPath}imagemeta.js", fileText);
+      LiamDebugger.Message($"saved:   {FolderPath}imagemeta.js", 2);
 
     }
     void ClearData()

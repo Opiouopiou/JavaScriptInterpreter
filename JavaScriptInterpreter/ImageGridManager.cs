@@ -93,7 +93,7 @@ namespace JavaScriptInterpreter
       Regex regexWithFolder = new Regex(@"(.*\/)\d*.jpg");
       Regex regex = new Regex(@"\d*.jpg");
 
-      string[] tempImagesInFolder = Directory.GetFiles(metaFileManager.RootFolder, "*.jpg");
+      string[] tempImagesInFolder = Directory.GetFiles(metaFileManager.FolderPath, "*.jpg");
       LiamDebugger.Message($"len tempimagesinfolder: {tempImagesInFolder.Length}", 2);
       imagesInFolder.Clear();
 
@@ -136,10 +136,10 @@ namespace JavaScriptInterpreter
 
         // create image
         LiamDebugger.Message($"metafile: {metaFileManager.DataList[i - 1].FileName}, button: {i - 1}", 2);
-        if (File.Exists($"{metaFileManager.RootFolder}{metaFileManager.DataList[i - 1].FileName}.jpg"))
+        if (File.Exists($"{metaFileManager.FolderPath}{metaFileManager.DataList[i - 1].FileName}.jpg"))
         //if (File.Exists($"{testRoot}{metaFileManager.DataList[i - 1].FileName}.jpg"))
         {
-          LiamDebugger.Message($"Existing file to load into button: {metaFileManager.RootFolder}{metaFileManager.DataList[i - 1].FileName}.jpg", 2);
+          LiamDebugger.Message($"Existing file to load into button: {metaFileManager.FolderPath}{metaFileManager.DataList[i - 1].FileName}.jpg", 2);
 
           Image im = new Image();
           //BitmapImage bi = new BitmapImage();
@@ -148,7 +148,7 @@ namespace JavaScriptInterpreter
           //im.Source = bi;
 
           //ImageBrush imb = new ImageBrush();
-          string source = $@"{metaFileManager.RootFolder}{metaFileManager.DataList[i - 1].FileName}.jpg";
+          string source = $@"{metaFileManager.FolderPath}{metaFileManager.DataList[i - 1].FileName}.jpg";
           im.Source = new BitmapImage(new Uri(source));//, UriKind.Relative));
           //imb.ImageSource = im.Source;
           //imb.Stretch = Stretch.UniformToFill;
