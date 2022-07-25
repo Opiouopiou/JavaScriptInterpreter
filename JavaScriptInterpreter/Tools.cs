@@ -45,9 +45,9 @@ namespace JavaScriptInterpreter
           int newFileNum = ItterateToNonExistingItem();
 
           string fromFile = $"{imName}";
-          string toFile = $"{MetaFileManager.Instance.FolderPath}{newFileNum}.jpg";
+          string toFile = $"{MetaFileManager.Instance.FolderPath}\\{newFileNum}.jpg";
 
-          LiamDebugger.Message($"attempting to change file name from {fromFile} to {toFile}", 2);
+          LiamDebugger.Message($"attempting to change file name from {fromFile} \n to {toFile}", 2);
 
           File.Move(fromFile, toFile);
 
@@ -58,7 +58,7 @@ namespace JavaScriptInterpreter
         }
 
         // Handle image that has valid name and does not exist in metadata
-        LiamDebugger.Message($"{imName} exists in metadata = {existsInMetaData}", 2);
+        LiamDebugger.Message($"{imName} exists in metadata = {existsInMetaData}", 3);
         if (regexIsJpg.IsMatch(imName) && regexIsValidFileName.IsMatch(imName) && !existsInMetaData)
         {
           LiamDebugger.Message($"imName is jpg, does not exist in metadata and IS valid filename {imName}, adding to database and renaming file", 2);
@@ -71,12 +71,9 @@ namespace JavaScriptInterpreter
           continue;
         }
 
-        LiamDebugger.Message($"imName already exists. Iterating to next loop", 2);
-
+        LiamDebugger.Message($"imName already exists. Iterating to next loop", 3);
       }
       MetaFileManager.Instance.SaveJsMetaFile();
-
-      ImageGridManager.Instance.LoadFolderIntoGrid();
     }
 
     static public void RemoveUnusedMetaFileData()
@@ -93,7 +90,7 @@ namespace JavaScriptInterpreter
       {
         string name = data.FileName;
         string checkExists = $"{MetaFileManager.Instance.FolderPath}{name}.jpg";
-        LiamDebugger.Message($"checking if {name} is in folder", 2);
+        LiamDebugger.Message($"checking if {name} is in folder", 3);
 
         if (!File.Exists(checkExists))
         {
@@ -108,7 +105,6 @@ namespace JavaScriptInterpreter
         }
       }
       MetaFileManager.Instance.SaveJsMetaFile();
-      ImageGridManager.Instance.LoadFolderIntoGrid();
     }
 
     static public void ConvertImagesToJpg()

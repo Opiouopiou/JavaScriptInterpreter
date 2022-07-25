@@ -8,7 +8,7 @@ namespace JavaScriptInterpreter
 {
   static public class LiamDebugger
   {
-    static public int debugLevel = 3; // 1 = very important log info, 5 = heavy stream/update log info
+    static public int debugLevel = 2; // 1 = very important log info, 5 = heavy stream/update log info
 
     static public void Name(string className, string methodName, int Level)
     {

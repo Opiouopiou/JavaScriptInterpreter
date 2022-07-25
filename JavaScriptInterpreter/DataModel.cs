@@ -27,7 +27,7 @@ namespace JavaScriptInterpreter
 
     public DataModel(string fileName, string title, string artist, string url, string license)
     {
-      LiamDebugger.Name(GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name, 2);
+      //LiamDebugger.Name(GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name, 2);
 
       _fileName = fileName;
       _title = title;
@@ -38,7 +38,7 @@ namespace JavaScriptInterpreter
 
     public DataModel(string fileName, string title, string artist, string url, string license, string extra)
     {
-      LiamDebugger.Name(GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name, 2);
+      //LiamDebugger.Name(GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name, 2);
 
       _fileName = fileName;
       _title = title;

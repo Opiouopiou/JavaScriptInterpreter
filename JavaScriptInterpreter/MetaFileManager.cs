@@ -14,7 +14,7 @@ namespace JavaScriptInterpreter
     string _rootFolder = "K:/Torrent downloads/_temp/gams/Own Stuff/JavaScriptInterpreter/testImageFolder/";
     int _lastClickedButton = 1;
     List<DataModel> _dataList = new List<DataModel>();
-    string metaFileName = "imagemeta.js";
+    string metaFileName = "\\imagemeta.js";
     MainWindow Form = Application.Current.Windows[0] as MainWindow;
 
     public Dictionary<int, DataModel> ImageButtonMapping = new Dictionary<int, DataModel>();
@@ -70,8 +70,6 @@ namespace JavaScriptInterpreter
         beginMeta = $"{beginMeta}{ImageMetaLines[i]} \n";
       }
 
-      LiamDebugger.Message($"start of metafile: {beginMeta}", 2);
-
 
       // ------------- setup begin meta complete ---------------- //
 
@@ -80,7 +78,7 @@ namespace JavaScriptInterpreter
         startOfArray++;
         if (startOfArray > ImageMetaLines.Length - 1)
         {
-          LiamDebugger.Message("! ------ ERROR: Could not find start of data ------ !", 2);
+          LiamDebugger.Message("! ------ ERROR: Could not find start of data 1 ------ !", 2);
           return null;
         }
       }
@@ -99,7 +97,7 @@ namespace JavaScriptInterpreter
         {
           if (i > ImageMetaLines.Length)
           {
-            LiamDebugger.Message("! ------ ERROR: Could not find start of data ------ !", 2);
+            LiamDebugger.Message("! ------ ERROR: Could not find start of data 2 ------ !", 2);
             break;
           }
           i++;
@@ -239,18 +237,11 @@ namespace JavaScriptInterpreter
           fileText = beginMeta + "\n" + endMeta;
         }
 
-      //LiamDebugger.Message($"Datamodel list:",2);
-      //foreach (var datamodel in DataList)
-      //{
-      //  LiamDebugger.Message($"filename: {datamodel.FileName}", 2);
-      //}
-
-
-      LiamDebugger.Message($" --------- about to delete: {FolderPath}imagemeta.js ---------", 4);
-      File.Delete($"{FolderPath}imagemeta.js");
-      LiamDebugger.Message($"deleted: {FolderPath}imagemeta.js", 2);
-      File.WriteAllText($"{FolderPath}imagemeta.js", fileText);
-      LiamDebugger.Message($"saved:   {FolderPath}imagemeta.js", 2);
+      LiamDebugger.Message($" --------- about to delete: {FolderPath}{metaFileName} ---------", 2);
+      File.Delete($"{FolderPath}{metaFileName}");
+      LiamDebugger.Message($"deleted: {FolderPath}{metaFileName}", 2);
+      File.WriteAllText($"{FolderPath}{metaFileName}", fileText);
+      LiamDebugger.Message($"saved:   {FolderPath}{metaFileName}", 2);
 
     }
     void ClearData()

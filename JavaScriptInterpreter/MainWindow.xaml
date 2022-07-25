@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:JavaScriptInterpreter"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="750" Width="1400">
     <Grid Name="mainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -30,12 +30,13 @@
         <Image Grid.Row="0" Grid.Column="1" Grid.RowSpan="6" x:Name="Idisplay" Stretch="Uniform" />
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
             <Button Grid.Column="0" Content="Change folder" Name="BchangeFolder" Click="ChangeFolder"/>
             <Button Grid.Column="1" Content="Update folder" Name="BaddAllIm" Click="UpdateFolder"/>
-            <!--<Button Grid.Column="2" Content="Remove all excess ImageMetaFile items" Name="Bremove" Click="RemoveExcessMeta"/>-->
+            <Button Grid.Column="2" Content="update folder and subfolders" Name="Bremove" Click="UpdateFolderAndChildFolders"/>
         </Grid>
         <Grid Grid.Column="1" Grid.Row="7">
             <Grid.ColumnDefinitions>

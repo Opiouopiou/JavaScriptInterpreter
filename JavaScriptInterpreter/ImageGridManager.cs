@@ -100,14 +100,14 @@ namespace JavaScriptInterpreter
       foreach (string imgPathName in tempImagesInFolder)
       {
         string imgFileName = Path.GetFileName(imgPathName);
-        LiamDebugger.Message($"img name: {imgFileName}", 2);
+        LiamDebugger.Message($"img name: {imgFileName}", 3);
         if (regex.IsMatch(imgPathName))
         {
-          Console.WriteLine($"regex: {regex} matches string {imgFileName}");
+          LiamDebugger.Message($"regex: {regex} matches string {imgFileName}",3);
           imagesInFolder.Add(imgPathName);
           continue;
         }
-        LiamDebugger.Message($"regex: {regex} did not match string {imgFileName}", 2);
+        LiamDebugger.Message($"regex: {regex} did not match string {imgFileName}", 3);
 
       }
       imagesInFolder.Sort();
@@ -135,23 +135,16 @@ namespace JavaScriptInterpreter
 
 
         // create image
-        LiamDebugger.Message($"metafile: {metaFileManager.DataList[i - 1].FileName}, button: {i - 1}", 2);
+        LiamDebugger.Message($"metafile: {metaFileManager.DataList[i - 1].FileName}, button: {i - 1}", 3);
         if (File.Exists($"{metaFileManager.FolderPath}{metaFileManager.DataList[i - 1].FileName}.jpg"))
-        //if (File.Exists($"{testRoot}{metaFileManager.DataList[i - 1].FileName}.jpg"))
         {
-          LiamDebugger.Message($"Existing file to load into button: {metaFileManager.FolderPath}{metaFileManager.DataList[i - 1].FileName}.jpg", 2);
+          LiamDebugger.Message($"Existing file to load into button: {metaFileManager.FolderPath}{metaFileManager.DataList[i - 1].FileName}.jpg", 3);
 
           Image im = new Image();
-          //BitmapImage bi = new BitmapImage();
-          //bi.CacheOption = BitmapCacheOption.OnLoad;
-          //bi.UriSource = new Uri($"{metaFileManager.RootFolder}{metaFileManager.DataList[i - 1].FileName}.jpg", UriKind.Relative);
-          //im.Source = bi;
 
-          //ImageBrush imb = new ImageBrush();
           string source = $@"{metaFileManager.FolderPath}{metaFileManager.DataList[i - 1].FileName}.jpg";
-          im.Source = new BitmapImage(new Uri(source));//, UriKind.Relative));
-          //imb.ImageSource = im.Source;
-          //imb.Stretch = Stretch.UniformToFill;
+          im.Source = new BitmapImage(new Uri(source));
+
           butt.Content = im;
         }
         else
@@ -167,13 +160,8 @@ namespace JavaScriptInterpreter
 
         // add to grid cell
         gridFromNumCells.Children.Add(butt);
-        //gridFromNumCells.VerticalAlignment = VerticalAlignment.Top;
         Grid.SetRow(butt, rowi);
         Grid.SetColumn(butt, coli);
-        //butt.color = imb;
-
-
-
       }
 
 

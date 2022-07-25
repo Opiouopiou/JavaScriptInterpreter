@@ -25,11 +25,12 @@ namespace JavaScriptInterpreter
     ImageGridManager ImGridManager;
     MetaFileManager metaFileManager;
 
+    string chosenFolder;
+
     public MainWindow()
     {
       InitializeComponent();
       Initialize();
-
     }
 
     private void Initialize()
@@ -42,51 +43,21 @@ namespace JavaScriptInterpreter
       metaFileManager = MetaFileManager.Instance;
       ImGridManager = ImageGridManager.Instance;
 
-      string workingPath = Directory.GetCurrentDirectory();
-      workingPath = System.IO.Path.GetFullPath(System.IO.Path.Combine(workingPath, @"..\..\..\"));
+      chosenFolder = Directory.GetCurrentDirectory();
+      chosenFolder = System.IO.Path.GetFullPath(System.IO.Path.Combine(chosenFolder, @"..\..\..\"));
 
-      metaFileManager.FolderPath = $"{workingPath}/testImageFolder/";
+      metaFileManager.FolderPath = $"{chosenFolder}\\testImageFolder/";
 
       metaFileManager.DataList = metaFileManager.LoadJsMetaFile();
 
 
       ImGridManager.LoadFolderIntoGrid();
-
-      //LoadFirstImageInFolder();
     }
-
-    //private void button1_Click(object sender, EventArgs e)
-    //{
-    //  int size = -1;
-    //  OpenFileDialog openFileDialog1 = new OpenFileDialog();
-    //  DialogResult result = openFileDialog1.ShowDialog(); // Show the dialog.
-    //  if (result == DialogResult.OK) // Test result.
-    //  {
-    //    string file = openFileDialog1.FileName;
-    //    try
-    //    {
-    //      string text = File.ReadAllText(file);
-    //      size = text.Length;
-    //    }
-    //    catch (IOException)
-    //    {
-    //    }
-    //  }
-
-    //}
-
-    //todo
-    // - browse for image and add it to data list
-    // - remove image from meta file
-    // - add all images in folder to meta file
-
-
-
 
     private void SaveMetaJS(object sender, RoutedEventArgs e)
     {
       LiamDebugger.Name(GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name, 2);
-      
+
       metaFileManager.SaveJsMetaFile();
       //metaFileManager.LoadJsMetaFile();
     }
@@ -104,10 +75,9 @@ namespace JavaScriptInterpreter
         int len = pathSplit.Length - 1;
         string pathNew = path.Remove(path.Length - pathSplit[len].Length);
         metaFileManager.FolderPath = pathNew;
+        chosenFolder = pathNew;
         metaFileManager.DataList = metaFileManager.LoadJsMetaFile();
         ImGridManager.LoadFolderIntoGrid();
-        //LoadFirstImageInFolder();
-
       }
     }
 
@@ -127,23 +97,51 @@ namespace JavaScriptInterpreter
 
     private void UpdateFolder(object sender, RoutedEventArgs e)
     {
-      GetAllChildFolders();
+      LiamDebugger.Name(GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name, 2);
+
       Tools.RemoveUnusedMetaFileData();
       Tools.AddExcludedImagesInFolderToMetaFile();
+      ImageGridManager.Instance.LoadFolderIntoGrid();
 
+      LiamDebugger.Message("completed updating folder", 2);
     }
 
-    private string[] GetAllChildFolders()
+    private void UpdateFolderAndChildFolders(object sender, RoutedEventArgs e)
     {
-      string[] paths = Directory.GetDirectories(metaFileManager.FolderPath);
+      LiamDebugger.Name(GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name, 2);
 
-      foreach(string path in paths)
+      UpdateAllChildFolders(metaFileManager.FolderPath);
+
+      metaFileManager.FolderPath = chosenFolder;
+      metaFileManager.LoadJsMetaFile();
+      Tools.RemoveUnusedMetaFileData();
+      Tools.AddExcludedImagesInFolderToMetaFile();
+      ImageGridManager.Instance.LoadFolderIntoGrid();
+
+      LiamDebugger.Message("completed updating folder and subfolders", 2);
+    }
+
+    private void UpdateAllChildFolders(string sDir)
+    {
+
+      try
       {
-        LiamDebugger.Message($"{path}",2);
+        LiamDebugger.Message(sDir, 2);
+        metaFileManager.FolderPath = sDir;
+        metaFileManager.LoadJsMetaFile();
+        Tools.RemoveUnusedMetaFileData();
+        Tools.AddExcludedImagesInFolderToMetaFile();
+
+        foreach (string d in Directory.GetDirectories(sDir))
+        {
+          UpdateAllChildFolders(d);
+        }
+      }
+      catch (Exception excpt)
+      {
+        LiamDebugger.Message("ERROR - " + excpt.Message, 2);
       }
 
-      return null;
     }
-
   }
 }
