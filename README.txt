@@ -10,7 +10,8 @@ Click on an image in the grid:
  - click on "update image data" to save your changes
 
 Update folder:
- - remove any excess metafiles that have no corresponding image (#.jpg) 
- - rename any jpg image to unique "#.jpg"
+ - ! remove any excess metafiles that have no corresponding image (#.jpg) 
+ - ! convert any png or webp to jpg
+ - rename any jpg image with unconventional name to unique "#.jpg"
  - add any images in the folder which are not yet in metafile to metafile and to gui's grid
- - any new data will be filled with "unknown in all fields"
+ - any new data created with this code will be filled with "unknown" in all fields
