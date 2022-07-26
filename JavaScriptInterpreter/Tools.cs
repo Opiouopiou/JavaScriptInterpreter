@@ -6,6 +6,9 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Drawing;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
 
 namespace JavaScriptInterpreter
 {
@@ -184,5 +187,35 @@ namespace JavaScriptInterpreter
       return regexIsJpg.IsMatch(fileName);
     }
 
+    static public void ConvertAllImageFilesInFolderToJpg(string folderPath)
+    {
+      string[] files = Directory.GetFiles(folderPath);
+
+
+
+      foreach (string file in files)
+      {
+        LiamDebugger.Message(file, 2);
+
+        string ext = Path.GetExtension(file).ToLower();
+
+        LiamDebugger.Message(ext, 2);
+
+
+        if (ext == ".webp" || ext == ".png")
+        {
+          LiamDebugger.Message("passed webp or png", 2);
+          using (SixLabors.ImageSharp.Image image = SixLabors.ImageSharp.Image.Load(file))
+          {
+            LiamDebugger.Message($"saving in to {Path.GetDirectoryName(file)}\\{Path.GetFileNameWithoutExtension(file)}.jpg", 2);
+
+            image.SaveAsJpeg($"{Path.GetDirectoryName(file)}\\{Path.GetFileNameWithoutExtension(file)}.jpg");
+            File.Delete(file);
+            image.Dispose();
+          }
+        }
+      }
+
+    }
   }
 }

@@ -108,6 +108,8 @@ namespace JavaScriptInterpreter
 
     private void UpdateFolderAndChildFolders(object sender, RoutedEventArgs e)
     {
+
+
       LiamDebugger.Name(GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name, 2);
 
       UpdateAllChildFolders(metaFileManager.FolderPath);
@@ -128,6 +130,7 @@ namespace JavaScriptInterpreter
       {
         LiamDebugger.Message(sDir, 2);
         metaFileManager.FolderPath = sDir;
+        Tools.ConvertAllImageFilesInFolderToJpg(metaFileManager.FolderPath);
         metaFileManager.LoadJsMetaFile();
         Tools.RemoveUnusedMetaFileData();
         Tools.AddExcludedImagesInFolderToMetaFile();
