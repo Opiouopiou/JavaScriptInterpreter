@@ -48,7 +48,7 @@ namespace JavaScriptInterpreter
 
       metaFileManager.FolderPath = $"{chosenFolder}\\testImageFolder/";
 
-      metaFileManager.DataList = metaFileManager.LoadJsMetaFile();
+      metaFileManager.LoadJsMetaFile();
 
 
       ImGridManager.LoadFolderIntoGrid();
@@ -76,7 +76,7 @@ namespace JavaScriptInterpreter
         string pathNew = path.Remove(path.Length - pathSplit[len].Length);
         metaFileManager.FolderPath = pathNew;
         chosenFolder = pathNew;
-        metaFileManager.DataList = metaFileManager.LoadJsMetaFile();
+        metaFileManager.LoadJsMetaFile();
         ImGridManager.LoadFolderIntoGrid();
       }
     }
@@ -98,27 +98,41 @@ namespace JavaScriptInterpreter
     private void UpdateFolder(object sender, RoutedEventArgs e)
     {
       LiamDebugger.Name(GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name, 2);
+      MainWindow Form = System.Windows.Application.Current.Windows[0] as MainWindow;
+      Form.Tinfo.Text = "Running code";
+      Form.Idisplay.Source = null;
+
+      Tools.ConvertAllImageFilesInFolderToJpg(metaFileManager.FolderPath);
 
       Tools.RemoveUnusedMetaFileData();
-      Tools.AddExcludedImagesInFolderToMetaFile();
-      ImageGridManager.Instance.LoadFolderIntoGrid();
+      metaFileManager.SaveJsMetaFile();
 
+      Tools.AddExcludedImagesInFolderToMetaFile();
+      metaFileManager.SaveJsMetaFile();
+      ImageGridManager.Instance.LoadFolderIntoGrid();
+      Form.Tinfo.Text = metaFileManager.FolderPath;
       LiamDebugger.Message("completed updating folder", 2);
     }
 
     private void UpdateFolderAndChildFolders(object sender, RoutedEventArgs e)
     {
-
-
       LiamDebugger.Name(GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name, 2);
+      MainWindow Form = System.Windows.Application.Current.Windows[0] as MainWindow;
 
-      UpdateAllChildFolders(metaFileManager.FolderPath);
+      Form.Tinfo.Text = "Running code";
 
+      UpdateAllChildFolders(metaFileManager.FolderPath + "\\");
       metaFileManager.FolderPath = chosenFolder;
       metaFileManager.LoadJsMetaFile();
+
       Tools.RemoveUnusedMetaFileData();
+      metaFileManager.SaveJsMetaFile();
+
       Tools.AddExcludedImagesInFolderToMetaFile();
+      metaFileManager.SaveJsMetaFile();
+
       ImageGridManager.Instance.LoadFolderIntoGrid();
+      Form.Tinfo.Text = metaFileManager.FolderPath;
 
       LiamDebugger.Message("completed updating folder and subfolders", 2);
     }
@@ -128,16 +142,24 @@ namespace JavaScriptInterpreter
 
       try
       {
+        MainWindow Form = System.Windows.Application.Current.Windows[0] as MainWindow;
+        Form.Idisplay.Source = null;
         LiamDebugger.Message(sDir, 2);
         metaFileManager.FolderPath = sDir;
+
         Tools.ConvertAllImageFilesInFolderToJpg(metaFileManager.FolderPath);
         metaFileManager.LoadJsMetaFile();
+
         Tools.RemoveUnusedMetaFileData();
+        metaFileManager.SaveJsMetaFile();
+
         Tools.AddExcludedImagesInFolderToMetaFile();
+        metaFileManager.SaveJsMetaFile();
+
 
         foreach (string d in Directory.GetDirectories(sDir))
         {
-          UpdateAllChildFolders(d);
+          UpdateAllChildFolders(d + "\\");
         }
       }
       catch (Exception excpt)

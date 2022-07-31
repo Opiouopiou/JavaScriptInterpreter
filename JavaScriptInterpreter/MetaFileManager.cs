@@ -23,7 +23,7 @@ namespace JavaScriptInterpreter
     StringBuilder stringOfConcern = new StringBuilder();
     string endMeta = "  }\n \n}());\n";
     string _displayImageSource = "";
-    public string FolderPath { get => _rootFolder; set { _rootFolder = value; } }
+    public string FolderPath { get => _rootFolder; set { _rootFolder = value; Form.Tinfo.Text = _rootFolder; } }
     public List<DataModel> DataList { get { if (_dataList == null) _dataList = new List<DataModel>(); return _dataList; } set { _dataList = value; } }
     public string DisplayImageSource { get => _displayImageSource; set { _displayImageSource = value; } }
     private static Lazy<MetaFileManager> lazy = new Lazy<MetaFileManager>(() => new MetaFileManager());
@@ -37,7 +37,8 @@ namespace JavaScriptInterpreter
       return DataList.ElementAt(dataNum);
     }
 
-    public List<DataModel> LoadJsMetaFile()
+    // ---------------------------------- load ------------------------------------- //
+    public void LoadJsMetaFile()
     {
       LiamDebugger.Name(GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name, 2);
 
@@ -47,7 +48,6 @@ namespace JavaScriptInterpreter
       if (_rootFolder + metaFileName == null)
       {
         LiamDebugger.Message("! ------ ERROR: no meta file exists ------ !", 1);
-        return null;
       }
 
       string[] ImageMetaLines = File.ReadAllLines(_rootFolder + metaFileName);
@@ -55,11 +55,15 @@ namespace JavaScriptInterpreter
       int startOfArray = 0;
       while (!ImageMetaLines[startOfArray].Contains("UNITIMAGE_CREDITS"))
       {
+        if (ImageMetaLines[startOfArray].Contains("IMAGEPACK"))
+        {
+          return;
+        }
+
         startOfArray++;
         if (startOfArray > ImageMetaLines.Length)
         {
           LiamDebugger.Message("! ------ ERROR: meta file does not contain \"UNITIMAGE_CREDITS\" ------ !", 2);
-          return null;
         }
         continue;
       }
@@ -79,7 +83,7 @@ namespace JavaScriptInterpreter
         if (startOfArray > ImageMetaLines.Length - 1)
         {
           LiamDebugger.Message("! ------ ERROR: Could not find start of data 1 ------ !", 2);
-          return null;
+          break;
         }
       }
 
@@ -183,13 +187,26 @@ namespace JavaScriptInterpreter
 
       }
       //DataList.Sort();
+      _dataList = DataList;
 
-      return DataList;
+      //return DataList;
     }
-
+    // ---------------------------------- save ------------------------------------- //
     public void SaveJsMetaFile()
     {
       LiamDebugger.Name(GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name, 2);
+
+      //check if is imagepack metafile.js, if so skip
+      string[] ImageMetaLines = File.ReadAllLines(_rootFolder + metaFileName);
+
+      foreach (var item in ImageMetaLines)
+      {
+        if (item.Contains("IMAGEPACK"))
+        {
+          return;
+        }
+      } 
+      
 
       // -- update meta file -- //
       stringOfConcern.Clear();
@@ -204,8 +221,8 @@ namespace JavaScriptInterpreter
         d.Url = Form.Turl.Text;
         d.License = Form.Tlicense.Text;
       }
-
       LiamDebugger.Message($" --------- Writing datamodels in string ---------", 2);
+
       string midMeta = "";
       if (DataList == null)
       {

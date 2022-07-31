@@ -22,13 +22,13 @@ namespace JavaScriptInterpreter
 
       Regex regexIsValidFileName = new Regex(@"(.*\/)\d\..*"); // check if it matches the 1.jpg format
       Regex regexIsJpg = new Regex(@".*.jpg"); // check if is jpg
-      MetaFileManager.Instance.DataList = MetaFileManager.Instance.LoadJsMetaFile();
+      MetaFileManager.Instance.LoadJsMetaFile();
       ImageGridManager.Instance.gridFromNumCells = null;
       foreach (string imName in tempFilesInFolder)
       {
         //Check if imName exists in metaData
         string fileName = Path.GetFileName(imName);
-        fileName = fileName.Remove(fileName.Length - 4);
+        fileName = Path.GetFileNameWithoutExtension(fileName);
 
         bool existsInMetaData;
 
@@ -48,7 +48,7 @@ namespace JavaScriptInterpreter
           int newFileNum = ItterateToNonExistingItem();
 
           string fromFile = $"{imName}";
-          string toFile = $"{MetaFileManager.Instance.FolderPath}\\{newFileNum}.jpg";
+          string toFile = $"{MetaFileManager.Instance.FolderPath}{newFileNum}.jpg";
 
           LiamDebugger.Message($"attempting to change file name from {fromFile} \n to {toFile}", 2);
 
@@ -76,7 +76,6 @@ namespace JavaScriptInterpreter
 
         LiamDebugger.Message($"imName already exists. Iterating to next loop", 3);
       }
-      MetaFileManager.Instance.SaveJsMetaFile();
     }
 
     static public void RemoveUnusedMetaFileData()
@@ -107,7 +106,6 @@ namespace JavaScriptInterpreter
           MetaFileManager.Instance.DataList = new List<DataModel>();
         }
       }
-      MetaFileManager.Instance.SaveJsMetaFile();
     }
 
     static public void ConvertImagesToJpg()
