@@ -91,7 +91,6 @@ namespace JavaScriptInterpreter
         Turl.Text = metaFileManager.DataList[0].Url;
         Tlicense.Text = metaFileManager.DataList[0].License;
         Textra.Text = metaFileManager.DataList[0].Extra;
-
       }
     }
 
@@ -114,34 +113,51 @@ namespace JavaScriptInterpreter
       LiamDebugger.Message("completed updating folder", 2);
     }
 
-    private void UpdateFolderAndChildFolders(object sender, RoutedEventArgs e)
+    private async void UpdateFolderAndChildFolders(object sender, RoutedEventArgs e)
     {
       LiamDebugger.Name(GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name, 2);
       MainWindow Form = System.Windows.Application.Current.Windows[0] as MainWindow;
 
-      Form.Tinfo.Text = "Running code";
+      Form.Tinfo.Dispatcher.Invoke(() => {Form.Tinfo.Text = "Running code"; });
 
-      UpdateAllChildFolders(metaFileManager.FolderPath + "\\");
-      metaFileManager.FolderPath = chosenFolder;
-      metaFileManager.LoadJsMetaFile();
 
-      Tools.RemoveUnusedMetaFileData();
-      metaFileManager.SaveJsMetaFile();
 
-      Tools.AddExcludedImagesInFolderToMetaFile();
-      metaFileManager.SaveJsMetaFile();
-
-      ImageGridManager.Instance.LoadFolderIntoGrid();
+      await UpdateAllChildFolders(metaFileManager.FolderPath + "\\");
       Form.Tinfo.Text = metaFileManager.FolderPath;
 
       LiamDebugger.Message("completed updating folder and subfolders", 2);
+
+      //private async void executeParallelAsync_Click(object sender, RoutedEventArgs e)
+      //{
+      //  var watch = System.Diagnostics.Stopwatch.StartNew();
+
+      //  await RunDownloadParallelASync();
+
+      //  watch.Stop();
+      //  var elapsedMs = watch.ElapsedMilliseconds;
+
+      //  resultsWindow.Text += $"Total execution time: {elapsedMs}";
+      ////}
+
     }
 
-    private void UpdateAllChildFolders(string sDir)
+    private async Task UpdateAllChildFolders(string sDir)
     {
 
       try
       {
+
+        metaFileManager.FolderPath = chosenFolder;
+        metaFileManager.LoadJsMetaFile();
+
+        Tools.RemoveUnusedMetaFileData();
+        metaFileManager.SaveJsMetaFile();
+
+        Tools.AddExcludedImagesInFolderToMetaFile();
+        metaFileManager.SaveJsMetaFile();
+
+        ImageGridManager.Instance.LoadFolderIntoGrid();
+
         MainWindow Form = System.Windows.Application.Current.Windows[0] as MainWindow;
         Form.Idisplay.Source = null;
         LiamDebugger.Message(sDir, 2);
@@ -159,7 +175,7 @@ namespace JavaScriptInterpreter
 
         foreach (string d in Directory.GetDirectories(sDir))
         {
-          UpdateAllChildFolders(d + "\\");
+          await UpdateAllChildFolders(d + "\\");
         }
       }
       catch (Exception excpt)
