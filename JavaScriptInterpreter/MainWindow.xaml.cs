@@ -118,6 +118,8 @@ namespace JavaScriptInterpreter
     {
       LiamDebugger.Name(GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name, 2);
       MainWindow Form = System.Windows.Application.Current.Windows[0] as MainWindow;
+      Form.Tinfo.Text = "Running code";
+      Form.Idisplay.Source = null;
 
       Form.Tinfo.Dispatcher.Invoke(() => {Form.Tinfo.Text = "Running code"; });
 
@@ -126,7 +128,13 @@ namespace JavaScriptInterpreter
       UpdateAllChildFolders(metaFileManager.FolderPath + "\\");
       Form.Tinfo.Text = metaFileManager.FolderPath;
 
+      metaFileManager.LoadJsMetaFile();
+      ImageGridManager.Instance.LoadFolderIntoGrid();
+
       LiamDebugger.Message("completed updating folder and subfolders", 2);
+
+
+
 
       //private async void executeParallelAsync_Click(object sender, RoutedEventArgs e)
       //{
@@ -142,7 +150,7 @@ namespace JavaScriptInterpreter
 
     }
 
-    private async void UpdateAllChildFolders(string sDir)
+    private void UpdateAllChildFolders(string sDir)
     {
 
       try
@@ -177,7 +185,8 @@ namespace JavaScriptInterpreter
         {
           UpdateAllChildFolders(d + "\\");
         }
-        await Task.Yield();
+
+        //await Task.Yield();
       }
       catch (Exception excpt)
       {
