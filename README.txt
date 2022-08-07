@@ -1,5 +1,9 @@
 This is a tool to help modding the game FoC and will provide the following functionality:
 
+How to run:
+ - navigate to JavaScriptInterpreter/bin/Release
+ - run the executable
+
 Change folder:
  - Navigate to a folder that contains the imagemeta.js with correct syntax. Select this file and click "Open"
  - Looks at imagemeta.js and then searches folder for images with the same names as meta has saved
