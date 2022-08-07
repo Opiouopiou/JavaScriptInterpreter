@@ -100,6 +100,7 @@ namespace JavaScriptInterpreter
       MainWindow Form = System.Windows.Application.Current.Windows[0] as MainWindow;
       Form.Tinfo.Text = "Running code";
       Form.Idisplay.Source = null;
+      //Form.mainGrid = null;
 
       Tools.ConvertAllImageFilesInFolderToJpg(metaFileManager.FolderPath);
 
@@ -113,7 +114,7 @@ namespace JavaScriptInterpreter
       LiamDebugger.Message("completed updating folder", 2);
     }
 
-    private async void UpdateFolderAndChildFolders(object sender, RoutedEventArgs e)
+    private void UpdateFolderAndChildFolders(object sender, RoutedEventArgs e)
     {
       LiamDebugger.Name(GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name, 2);
       MainWindow Form = System.Windows.Application.Current.Windows[0] as MainWindow;
@@ -122,7 +123,7 @@ namespace JavaScriptInterpreter
 
 
 
-      await UpdateAllChildFolders(metaFileManager.FolderPath + "\\");
+      UpdateAllChildFolders(metaFileManager.FolderPath + "\\");
       Form.Tinfo.Text = metaFileManager.FolderPath;
 
       LiamDebugger.Message("completed updating folder and subfolders", 2);
@@ -141,12 +142,11 @@ namespace JavaScriptInterpreter
 
     }
 
-    private async Task UpdateAllChildFolders(string sDir)
+    private async void UpdateAllChildFolders(string sDir)
     {
 
       try
       {
-
         metaFileManager.FolderPath = chosenFolder;
         metaFileManager.LoadJsMetaFile();
 
@@ -175,8 +175,9 @@ namespace JavaScriptInterpreter
 
         foreach (string d in Directory.GetDirectories(sDir))
         {
-          await UpdateAllChildFolders(d + "\\");
+          UpdateAllChildFolders(d + "\\");
         }
+        await Task.Yield();
       }
       catch (Exception excpt)
       {
