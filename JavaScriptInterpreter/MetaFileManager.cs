@@ -172,7 +172,7 @@ namespace JavaScriptInterpreter
           int from = ImageMetaLines[i + 5].IndexOf(" \"") + " \"".Length;
           int to = ImageMetaLines[i + 5].LastIndexOf("\",");
 
-          dataArtist = ImageMetaLines[i + 5].Substring(from, to - from);
+          dataExtra = ImageMetaLines[i + 5].Substring(from, to - from);
 
           LiamDebugger.Message($"extra: {dataExtra}", 5);
 
@@ -220,6 +220,7 @@ namespace JavaScriptInterpreter
         d.Artist = Form.Tartist.Text;
         d.Url = Form.Turl.Text;
         d.License = Form.Tlicense.Text;
+        d.Extra = Form.Textra.Text;
       }
       LiamDebugger.Message($" --------- Writing datamodels in string ---------", 2);
 
@@ -237,6 +238,7 @@ namespace JavaScriptInterpreter
           stringOfConcern.Append($"      artist: \"{DataList[i].Artist}\",\n");
           stringOfConcern.Append($"      url: \"{DataList[i].Url}\",\n");
           stringOfConcern.Append($"      license: \"{DataList[i].License}\",\n");
+          stringOfConcern.Append($"      extra: \"{DataList[i].Extra}\",\n");
           stringOfConcern.Append($"    }},");
         }
         if (stringOfConcern.Length > 0)
@@ -261,6 +263,7 @@ namespace JavaScriptInterpreter
       LiamDebugger.Message($"saved:   {FolderPath}{metaFileName}", 2);
 
     }
+
     void ClearData()
     {
       LiamDebugger.Name(GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name, 2);

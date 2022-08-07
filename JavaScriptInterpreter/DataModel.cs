@@ -23,7 +23,7 @@ namespace JavaScriptInterpreter
     public string Artist { get=>_artist; set { _artist = value; } }
     public string Url { get=>_url; set { _url = value; } }
     public string License { get=>_license; set { _license = value; } }
-    public string Extra { get=>_extra; set { Extra = value; } }
+    public string Extra { get=>_extra; set { _extra = value; } }
 
     public DataModel(string fileName, string title, string artist, string url, string license)
     {
