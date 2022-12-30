@@ -200,7 +200,7 @@ namespace JavaScriptInterpreter
         LiamDebugger.Message(ext, 2);
 
 
-        if (ext == ".png" || ext == ".webp" || ext == ".JPG")
+        if (ext == ".png" || ext == ".webp" || ext == ".JPG" || ext == ".jpeg")
         {
           LiamDebugger.Message("passed webp or png", 2);
           using (SixLabors.ImageSharp.Image image = SixLabors.ImageSharp.Image.Load(file))
